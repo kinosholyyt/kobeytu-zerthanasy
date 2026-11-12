@@ -1,0 +1,43 @@
+/* «Математика дәптері» — тор көз, көк сия, стикерлер */
+body.t-notebook{background:#16405a;background-image:linear-gradient(#ffffff14 1px,transparent 1px),linear-gradient(90deg,#ffffff14 1px,transparent 1px);background-size:22px 22px}
+.t-notebook .hero h1{transform:none;color:#fff}
+.t-notebook h1 u{background:none;border-bottom:4px solid #ffe36e}
+.t-notebook .sub{color:#bfe0f0}
+.t-notebook .goal{background:#fff3a6;border:0;border-radius:2px;box-shadow:0 8px 12px -6px #0009;font-family:"Segoe Print","Comic Sans MS","Nunito",sans-serif}
+.t-notebook .goal b{background:none;color:#1d4fb8}
+.t-notebook .panel,.t-notebook .card,.t-notebook .qc{border:0;border-radius:4px;background-color:#fff;background-image:linear-gradient(90deg,transparent 30px,#ff8aa366 30px 32px,transparent 32px),linear-gradient(#cfe0f5 1px,transparent 1px),linear-gradient(90deg,#cfe0f5 1px,transparent 1px);background-size:100% 100%,14px 14px,14px 14px;box-shadow:0 12px 20px -8px #000a;color:#1d3a8a}
+.t-notebook .panel{padding-left:42px}
+.t-notebook .panel:before{background:#8fd3ff99;width:110px;transform:rotate(3deg)}
+.t-notebook .card{padding-left:44px}
+.t-notebook .card:after{background:#ffe36ecc;transform:rotate(-6deg);right:auto;left:40%}
+.t-notebook .card .ic{border:2px dashed #1d4fb8;background:#fff}
+.t-notebook .card h3{color:#1d4fb8;font-family:"Segoe Print","Comic Sans MS","Nunito",sans-serif;font-size:19px}
+.t-notebook .card p{color:#2a3a60}
+.t-notebook .card .tag{border:0;background:#ffe36e;border-radius:2px;transform:rotate(-2deg)}
+.t-notebook .seg button{border:2px solid #1d4fb8;box-shadow:none;color:#1d4fb8;border-radius:20px}
+.t-notebook .seg button.on{background:#1d4fb8;color:#fff;transform:none}
+.t-notebook input.nm{border:0;border-bottom:3px solid #1d4fb8;border-radius:0;background:transparent;color:#1d3a8a}
+.t-notebook .lbl{color:#1d4fb8}
+.t-notebook .bigb{border:0;border-radius:2px;background:#fff3a6;box-shadow:0 8px 12px -6px #000a;transform:rotate(-1.5deg)}
+.t-notebook .bigb.alt{background:#c9f0ff;transform:rotate(1.5deg)}
+.t-notebook .bar{background:#16405a}
+.t-notebook .back{border:0;border-radius:50%;box-shadow:0 6px 10px -4px #000a}
+.t-notebook .ttl{color:#fff;font-family:"Segoe Print","Comic Sans MS","Nunito",sans-serif}
+.t-notebook .lvb{border:0;border-radius:2px;box-shadow:0 6px 10px -4px #000a}
+.t-notebook .prog i{border:2px solid #ffffff55;border-radius:50%;height:14px;flex:0 0 14px}
+.t-notebook .prog{gap:10px;justify-content:center}
+.t-notebook .prog i.ok{background:#7ef0c4;border:0}.t-notebook .prog i.now{background:#fff;border:0}
+.t-notebook .qc{padding-left:44px;transform:none;font-family:"Segoe Print","Comic Sans MS","Nunito",sans-serif}
+.t-notebook .qc .spk{border:0;border-radius:50%;background:#c9f0ff;box-shadow:none}
+.t-notebook .qc b.nm{background:none;color:#e0306f;text-decoration:underline wavy #e0306f99}
+.t-notebook .opt{border:3px solid #1d4fb8;border-radius:50%;width:78px;height:78px;min-width:0;padding:0;background:#fff;color:#1d4fb8;box-shadow:0 8px 12px -6px #000a}
+.t-notebook .cube .fc{border:2px solid #1d4fb8;border-radius:4px;background:#c9f0ff;color:#1d4fb8;background-image:linear-gradient(#1d4fb81f 1px,transparent 1px),linear-gradient(90deg,#1d4fb81f 1px,transparent 1px);background-size:12px 12px}
+.t-notebook .cube .f1{background-color:#fff}
+.t-notebook .screen3d{outline:0;border:0;background:#fff;color:#1d4fb8;border-radius:4px;box-shadow:0 12px 20px -8px #000a}
+.t-notebook #ai{background:linear-gradient(#16405a00,#16405a 35%)}
+.t-notebook .bub{border:0;border-radius:2px;background:#fff3a6;box-shadow:0 8px 12px -6px #000a;font-family:"Segoe Print","Comic Sans MS","Nunito",sans-serif}
+.t-notebook .bub:before{display:none}
+.t-notebook #hintBtn{border:0;border-radius:2px;background:#c9f0ff;box-shadow:0 8px 12px -6px #000a}
+.t-notebook .kboard{outline:0;border:0;border-radius:4px;background:#fff}
+.t-notebook .kc{border:1px solid #cfe0f5;color:#1d4fb8}
+.t-notebook .kc.seen{background:#fff3a6;border-color:#1d4fb8}

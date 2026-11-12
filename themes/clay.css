@@ -1,0 +1,39 @@
+/* «Пластилин» — жұмсақ, ойыншық сияқты */
+body.t-clay{--clay:inset -5px -6px 10px #0000002e,inset 5px 6px 10px #ffffffb0,0 10px 18px #0e063a66;background:#3b2a7a;background-image:radial-gradient(circle at 12% 18%,#4b38952e 0 80px,transparent 81px),radial-gradient(circle at 88% 70%,#4b389533 0 120px,transparent 121px)}
+.t-clay .hero,.t-clay .hero h1,.t-clay .sub{color:#fff}
+.t-clay .hero h1{transform:none;font-size:clamp(30px,8vw,46px);text-shadow:0 4px 0 #22175a}
+.t-clay h1 u{background:none;color:#ffd96a}
+.t-clay .goal,.t-clay .panel,.t-clay .card,.t-clay .qc,.t-clay .opt,.t-clay .bigb,.t-clay .seg button,.t-clay .back,.t-clay .lvb,.t-clay .bub,.t-clay #hintBtn,.t-clay input.nm,.t-clay .pad button,.t-clay .ansd,.t-clay .gate,.t-clay .tl,.t-clay .gem,.t-clay .plate,.t-clay .pile,.t-clay .dots,.t-clay .bal .eq{border:0!important;box-shadow:var(--clay)!important;transform:none!important}
+.t-clay .goal{border-radius:22px;background:#f2ecff}
+.t-clay .goal b{background:#c9b8ff;border-radius:10px;padding:1px 6px}
+.t-clay .panel{border-radius:30px;background:#efe9ff}
+.t-clay .panel:before,.t-clay .card:after,.t-clay .bub:before{display:none}
+.t-clay .seg button{border-radius:18px;background:#fff}
+.t-clay .seg button.on{background:#ffd96a}
+.t-clay input.nm{border-radius:18px}
+.t-clay .card{border-radius:30px;background:color-mix(in srgb,var(--c) 45%,#fff)}
+.t-clay .card .ic{border:0;background:#ffffffaa;box-shadow:var(--clay)}
+.t-clay .card .tag{border:0;border-radius:12px;background:#ffffffaa}
+.t-clay .bigb{border-radius:22px;background:#ffd96a}
+.t-clay .bigb.alt{background:#fff}
+.t-clay .bar{background:#3b2a7a}
+.t-clay .back{border-radius:18px}
+.t-clay .ttl{color:#fff}
+.t-clay .lvb{border-radius:16px}
+.t-clay .prog i{border:0;background:#ffffff26;border-radius:10px;height:12px}
+.t-clay .prog i.ok{background:#7ef0c4;border:0}.t-clay .prog i.now{background:#fff}
+.t-clay .qc{border-radius:28px;background:#fff}
+.t-clay .qc .spk{border:0;border-radius:16px;box-shadow:var(--clay)}
+.t-clay .qc b.nm{background:#ffd96a;border-radius:8px}
+.t-clay .opt{border-radius:26px;background:#fff}
+.t-clay .cube .fc{border:0;border-radius:22px;background:#8fd0ff;box-shadow:inset -6px -6px 12px #0003,inset 6px 6px 12px #fff9}
+.t-clay .cube .f1{background:#fff}
+.t-clay .screen3d{border:0;outline:0;border-radius:28px;background:#fff;color:#3b2a7a;box-shadow:var(--clay);transform:none}
+.t-clay #ai{background:linear-gradient(#3b2a7a00,#3b2a7a 35%)}
+.t-clay .bub{border-radius:24px}
+.t-clay #hintBtn{border-radius:20px;background:#ffd96a}
+.t-clay .kboard{border:0;outline:0;border-radius:26px;background:#efe9ff;box-shadow:var(--clay)}
+.t-clay .kc{border:0;border-radius:10px;background:#fff;color:#3b2a7a;box-shadow:inset -2px -3px 4px #0002}
+.t-clay .kc.seen{background:#ffd96a}
+.t-clay .gate{border-radius:28px}
+.t-clay .pad button,.t-clay .ansd,.t-clay .tl,.t-clay .gem{border-radius:20px}
