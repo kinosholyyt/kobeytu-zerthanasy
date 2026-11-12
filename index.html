@@ -76,6 +76,36 @@ input.nm{border:0;border-radius:18px;padding:10px 14px;font:inherit;font-weight:
 @keyframes bp{from{transform:scale(.94)}}
 .bub .who{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:900;color:#6a4ae6;letter-spacing:.5px;text-transform:uppercase}
 #hintBtn{pointer-events:auto;flex:none;height:52px;padding:0 12px;border-radius:20px;font-weight:900;background:var(--y);box-shadow:var(--clay);display:flex;align-items:center;gap:4px}
+#race{position:fixed;inset:0;display:none;z-index:3;pointer-events:none}
+#race.on{display:block}
+.rbar{position:absolute;top:8px;left:10px;right:10px;display:flex;align-items:center;gap:10px}
+.rbar .back,.rbar #rend{pointer-events:auto}
+#rend{display:none;padding:8px 14px;font-size:14px;border-radius:16px}#rend.on{display:block}
+#rcount{position:absolute;left:0;right:0;top:0;height:var(--rvh,40vh);display:none;place-items:center;font-size:clamp(70px,16vw,170px);font-weight:900;color:#fff;text-shadow:0 8px 0 #1a1048}
+#rcount.on{display:grid}#rcount.pop{animation:pop .4s}
+.rpanels{position:absolute;left:0;right:0;bottom:0;top:var(--rvh,40vh);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:10px;pointer-events:auto;background:var(--bg)}
+.rpanels.intro{display:flex;align-items:center;justify-content:center}
+.rpanels.wait .tq,.rpanels.wait .to{filter:blur(16px);pointer-events:none}
+.rcard{background:#efe9ff;border-radius:26px;padding:16px 20px;max-width:660px;box-shadow:var(--clay);text-align:center;max-height:100%;overflow:auto}
+.rcard h2{margin:0 0 6px}.rcard p{font-weight:700;margin:0 0 12px;line-height:1.45}
+.tp{position:relative;min-height:0;display:flex;flex-direction:column;overflow:hidden;border-radius:22px;background:#fff;box-shadow:var(--clay)}
+.tp .th{display:flex;align-items:center;gap:8px;padding:7px 12px;font-weight:900;background:color-mix(in srgb,var(--tc) 55%,#fff);font-size:clamp(13px,1.5vw,18px)}
+.tp .tb{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:#fff;flex:none}
+.tp .tn{flex:1;font-weight:800;font-size:.85em;opacity:.8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tp .tt{background:#fff;border-radius:12px;padding:2px 10px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tp .tq{flex:1;min-height:0;overflow:hidden;padding:8px 14px;font-weight:800;font-size:clamp(14px,1.9vw,23px);line-height:1.3;display:flex;align-items:center}
+.tp .to{display:grid;grid-template-columns:1fr 1fr;gap:9px;padding:0 10px 10px}
+.tp .to button{padding:clamp(8px,1.8vh,20px) 4px;font-size:clamp(20px,3vw,36px);font-weight:900;border-radius:18px;background:color-mix(in srgb,var(--tc) 42%,#fff);box-shadow:var(--clay);touch-action:manipulation;user-select:none}
+.tp .to button:active{transform:scale(.95)}
+.tp .pz{position:absolute;inset:0;background:#2a1f5cd9;color:#fff;display:none;place-items:center;font-weight:900;font-size:clamp(20px,3vw,38px);text-align:center;line-height:1.25}
+.tp.paused .pz{display:grid}
+.tp.paused{animation:shk .4s}
+@keyframes shk{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.tp .fin{display:flex;flex-direction:column;align-items:center;gap:4px;width:100%;font-size:clamp(20px,2.6vw,34px);text-align:center}
+.tp .fin span{font-size:.6em;font-weight:800;opacity:.75}
+.rrow{display:flex;align-items:center;gap:12px;padding:10px 14px;margin:8px 0;border-radius:16px;background:#fff;border-left:12px solid var(--tc);font-weight:800;color:var(--ink)}
+.rrow .pl{font-size:24px;width:26px}.rrow .nm2{flex:1;text-align:left}.rrow .wr{color:#6a6090;font-size:13px}
+@media (orientation:portrait){.rpanels{grid-template-columns:1fr;grid-template-rows:repeat(3,minmax(0,1fr));gap:6px;padding:6px}.tp .to{grid-template-columns:repeat(4,1fr);gap:6px;padding:0 8px 8px}.tp .tq{font-size:14px;padding:4px 12px}.tp .to button{font-size:21px;padding:9px 2px;border-radius:14px}.tp .th{padding:4px 10px}.rcard p{font-size:14px}}
 #loading{position:fixed;inset:0;display:none;place-items:center;color:#fff;font-weight:900;font-size:18px;z-index:5;background:var(--bg)}
 #loading.on{display:grid}
 .spin{width:54px;height:54px;border-radius:50%;border:6px solid #ffffff33;border-top-color:var(--y);animation:sp 1s linear infinite;margin:0 auto 12px}
@@ -142,6 +172,7 @@ table.rep{width:100%;border-collapse:collapse;font-size:14px}
  </div>
  <div class="bot"><span class="rb" id="rbot"></span><div class="bub" id="bub"></div><button id="hintBtn"></button></div>
 </section>
+<section id="race"><div class="rbar"><button class="back" id="rback" aria-label="Артқа">⬅</button><div class="ttl" id="rttl"></div><button class="bigb alt" id="rend">Жарысты аяқтау</button></div><div id="rcount"></div><div class="rpanels" id="rpanels"></div></section>
 <div id="loading"><div><div class="spin"></div>3D әлем жүктелуде…</div></div>
 <section id="end" class="scr"><div class="endc" id="endc"></div></section>
 <section id="report" class="scr"><div id="repc"></div></section>
@@ -210,6 +241,8 @@ const NEWSYM={
  frog:`<ellipse cx="32" cy="58" rx="22" ry="3" fill="#0003"/><ellipse cx="32" cy="40" rx="22" ry="16" fill="url(#gLeaf)"/><ellipse cx="32" cy="46" rx="13" ry="8" fill="#e8ffe0"/><circle cx="20" cy="24" r="8" fill="url(#gLeaf)"/><circle cx="44" cy="24" r="8" fill="url(#gLeaf)"/><circle cx="20" cy="23" r="5" fill="#fff"/><circle cx="44" cy="23" r="5" fill="#fff"/><circle cx="21" cy="24" r="2.5" fill="#1a1440"/><circle cx="45" cy="24" r="2.5" fill="#1a1440"/><path d="M22 37q10 6 20 0" stroke="#1a5a2a" stroke-width="2.5" fill="none" stroke-linecap="round"/><circle cx="15" cy="37" r="2.5" fill="#ff9ad0" opacity=".7"/><circle cx="49" cy="37" r="2.5" fill="#ff9ad0" opacity=".7"/>`,
  sheep:`<ellipse cx="34" cy="58" rx="20" ry="3" fill="#0003"/><g fill="#fff" stroke="#d9def5" stroke-width="1.5"><circle cx="26" cy="30" r="10"/><circle cx="38" cy="26" r="11"/><circle cx="48" cy="33" r="10"/><circle cx="32" cy="40" r="11"/><circle cx="44" cy="42" r="10"/></g><rect x="28" y="48" width="4" height="9" rx="2" fill="#3a3355"/><rect x="42" y="48" width="4" height="9" rx="2" fill="#3a3355"/><ellipse cx="15" cy="34" rx="8" ry="9" fill="#3a3355"/><circle cx="12" cy="32" r="1.8" fill="#fff"/><ellipse cx="11" cy="26" rx="4" ry="2" fill="#3a3355" transform="rotate(-30 11 26)"/>`,
  rocket:`<path d="M32 4c9 8 12 20 10 34H22C20 24 23 12 32 4z" fill="#f4f6ff" stroke="#c9d2ff" stroke-width="1.5"/><path d="M32 4c4 3.5 7 8 8.5 13h-17C25 12 28 7.5 32 4z" fill="url(#gCandy)"/><circle cx="32" cy="25" r="5" fill="url(#gGem)" stroke="#fff" stroke-width="2"/><path d="M22 30l-8 10v8l8-4zM42 30l8 10v8l-8-4z" fill="url(#gChest)"/><path d="M26 38h12l-2 6h-8z" fill="#9aa6d8"/><path d="M28 44h8l-4 14z" fill="url(#gStar)"/>`,
+ trophy:`<ellipse cx="32" cy="59" rx="16" ry="3" fill="#0003"/><path d="M18 12H8c0 9 4 14 11 15M46 12h10c0 9-4 14-11 15" stroke="#e08a00" stroke-width="3.5" fill="none" stroke-linecap="round"/><path d="M18 8h28v12c0 10-6 17-14 17S18 30 18 20z" fill="url(#gStar)" stroke="#e08a00" stroke-width="2"/><rect x="28" y="36" width="8" height="10" fill="url(#gGold)"/><rect x="20" y="46" width="24" height="9" rx="3" fill="url(#gChest)"/><path d="M24 13v9" stroke="#fff" stroke-width="3" opacity=".7" stroke-linecap="round"/><path d="M32 15l2 4.2 4.6.6-3.4 3.2.9 4.5-4.1-2.2-4.1 2.2.9-4.5-3.4-3.2 4.6-.6z" fill="#fff" opacity=".85"/>`,
+ puzzle:`<ellipse cx="32" cy="59" rx="22" ry="3" fill="#0003"/><rect x="8" y="8" width="23" height="23" rx="6" fill="url(#gGem)"/><rect x="33" y="8" width="23" height="23" rx="6" fill="url(#gCandy)"/><rect x="8" y="33" width="23" height="23" rx="6" fill="url(#gShoe)"/><rect x="33" y="33" width="23" height="23" rx="6" fill="url(#gStar)"/><g fill="#fff" font-size="15" font-weight="900" text-anchor="middle" font-family="Arial"><text x="19.5" y="25">2</text><text x="44.5" y="25">4</text><text x="19.5" y="50">6</text></g><text x="44.5" y="51" fill="#2a1f5c" font-size="17" font-weight="900" text-anchor="middle" font-family="Arial">?</text>`,
  stairs:`<ellipse cx="32" cy="60" rx="28" ry="2.5" fill="#0003"/><rect x="4" y="44" width="14" height="14" rx="3" fill="url(#gGem)"/><rect x="18" y="33" width="14" height="25" rx="3" fill="url(#gChest)"/><rect x="32" y="22" width="14" height="36" rx="3" fill="url(#gShoe)"/><rect x="46" y="11" width="14" height="47" rx="3" fill="url(#gCandy)"/><g fill="#fff" font-size="10" font-weight="900" text-anchor="middle" font-family="Arial"><text x="11" y="55">2</text><text x="25" y="44">4</text><text x="39" y="33">6</text><text x="53" y="22">?</text></g><path d="M53 1l1.5 3.5 3.5 1.5-3.5 1.5L53 11l-1.5-3.5L48 6l3.5-1.5z" fill="url(#gStar)"/>`
 };
 document.querySelector('div[aria-hidden="true"] svg').insertAdjacentHTML('beforeend',Object.entries(NEWSYM).map(([k,v])=>`<symbol id="i-${k}" viewBox="0 0 64 64">${v}</symbol>`).join(''));
@@ -352,7 +385,7 @@ function critter(o){const g=new THREE.Group(),c=M(o.c,{roughness:.6}),su=M(o.sui
 function alive(ch,task=false){const u=ch.userData;onUpd(t=>{const b=(t+u.ph)%3.6,k=b<.13?.1:1;u.eyes.forEach(e=>e.scale.y=k);if(!u.busy){u.body.scale.y=1+Math.sin(t*2.6+u.ph)*.02;if(u.head)u.head.rotation.z=Math.sin(t*1.1+u.ph)*.05}},task);return ch}
 async function cheer(ch){const u=ch.userData;if(u.busy)return;u.busy=true;const y=ch.position.y,sx=ch.scale.x;await tw(.55,k=>{const s=Math.sin(Math.PI*k);ch.position.y=y+s*.7*sx;if(u.arms)u.arms.forEach((a,i)=>a.rotation.z=(i?1:-1)*(.35+s*2.3))});ch.position.y=y;u.busy=false}
 async function sadNo(ch){const u=ch.userData;if(u.busy||!u.head)return;u.busy=true;await tw(.6,k=>{u.head.rotation.y=Math.sin(k*Math.PI*4)*.5*(1-k)});u.head.rotation.y=0;u.busy=false}
-function car(){const g=new THREE.Group(),body=new THREE.Group();g.add(body);const paint=M('#ff7aa8',{roughness:.3,metalness:.15}),cream=M('#fff0d6',{roughness:.5}),chrome=M('#f4f6ff',{metalness:.75,roughness:.22});
+function car(col,drv){const g=new THREE.Group(),body=new THREE.Group();g.add(body);const paint=M(col||'#ff7aa8',{roughness:.3,metalness:.15}),cream=M('#fff0d6',{roughness:.5}),chrome=M('#f4f6ff',{metalness:.75,roughness:.22});
  mesh(RB(2.5,.5,1.3,.22),paint,{y:.56,p:body});mesh(RB(.95,.3,1.2,.14),paint,{x:.74,y:.88,p:body});mesh(RB(.62,.28,1.2,.13),paint,{x:-.93,y:.86,p:body});
  mesh(RB(2.52,.08,1.33,.03),cream,{y:.48,p:body,cast:false});
  mesh(RB(1.0,.1,1.0,.04),M('#5a3a6a'),{x:-.13,y:.8,p:body,cast:false});mesh(RB(.2,.52,1.0,.08),cream,{x:-.62,y:1.02,p:body});
@@ -363,7 +396,7 @@ function car(){const g=new THREE.Group(),body=new THREE.Group();g.add(body);cons
  [-.43,.43].forEach(z=>{mesh(SG(.13),M('#fffbe0',{emissive:'#fff2a0',emissiveIntensity:1.3}),{x:1.2,y:.76,z,p:body,cast:false});mesh(G('tl',()=>RB(.06,.13,.22,.03)),M('#ff3b5c',{emissive:'#ff3b5c',emissiveIntensity:.7}),{x:-1.27,y:.74,z,p:body,cast:false});
   const fd=mesh(G('fend',()=>new THREE.TorusGeometry(.4,.09,8,14,Math.PI)),paint,{x:.8,y:.36,z:z*1.5,p:body});const fd2=mesh(G('fend'),paint,{x:-.8,y:.36,z:z*1.5,p:body})});
  const wheels=[];[[.8,.68],[-.8,.68],[.8,-.68],[-.8,-.68]].forEach(([x,z])=>{const w=new THREE.Group();w.position.set(x,.36,z);g.add(w);mesh(G('tire',()=>new THREE.TorusGeometry(.24,.12,10,22)),M('#2a2440',{roughness:.9}),{p:w});const hub=mesh(G('hub',()=>new THREE.CylinderGeometry(.17,.17,.22,14)),chrome,{p:w});hub.rotation.x=Math.PI/2;for(let i=0;i<3;i++){const sp=mesh(G('spoke',()=>new THREE.BoxGeometry(.32,.05,.24)),M('#c9cfe8'),{p:w,cast:false});sp.rotation.z=i*Math.PI/3}wheels.push(w)});
- const d=critter({c:'#d9a070',belly:'#ffe9cc',ear:'round',scarf:'#5ab8ff'});d.scale.setScalar(.82);d.position.set(-.18,.58,0);d.rotation.y=Math.PI/2;body.add(d);
+ const d=critter(drv||{c:'#d9a070',belly:'#ffe9cc',ear:'round',scarf:'#5ab8ff'});d.scale.setScalar(.82);d.position.set(-.18,.58,0);d.rotation.y=Math.PI/2;body.add(d);
  g.userData={wheels,body,driver:d};return g}
 function frog(){const g=new THREE.Group(),gr=M('#63dc92',{roughness:.5}),dk=M('#3fbf73',{roughness:.5}),bl=M('#f4ffdc',{roughness:.6});const body=new THREE.Group();g.add(body);
  mesh(SG(.46),gr,{y:.36,p:body}).scale.set(1.05,.74,1.15);mesh(SG(.34),bl,{y:.27,z:.2,p:body,cast:false}).scale.set(1,.62,.92);
@@ -400,14 +433,14 @@ async function init3d(){if(ready)return;$('#loading').classList.add('on');
  const ray=new THREE.Raycaster(),ndc=new THREE.Vector2();
  canvas.addEventListener('pointerdown',e=>{if(!cur||cur.locked)return;ndc.set(e.clientX/innerWidth*2-1,-(e.clientY/innerHeight)*2+1);ray.setFromCamera(ndc,cam);const hits=ray.intersectObjects([HUD,world],true);for(const h of hits){let o=h.object;while(o&&!o.userData.tap)o=o.parent;if(o){o.userData.tap(o);break}}});
  addEventListener('resize',resize3d);ready=true;$('#loading').classList.remove('on')}
-function resize3d(){if(!ready)return;R3.setSize(innerWidth,innerHeight,false);cam.aspect=innerWidth/innerHeight;if(cur&&cur.g.cam){const c=camOf(cur.g);cam.fov=c.fov;if(!cur.g.follow){rig.pos.set(...c.p);rig.look.set(...c.l)}}cam.updateProjectionMatrix();HUDL.forEach(f=>f())}
+function resize3d(){if(!ready)return;const vh=RC?raceVh():1,H=Math.round(innerHeight*vh);$('#c').style.height=RC?H+'px':'';if(RC)document.documentElement.style.setProperty('--rvh',H+'px');R3.setSize(innerWidth,H,false);cam.aspect=innerWidth/H;const gg=(cur&&cur.g)||(RC&&RC.g);if(gg&&gg.cam){const c=camOf(gg);cam.fov=c.fov;if(!gg.follow){rig.pos.set(...c.p);rig.look.set(...c.l)}}cam.updateProjectionMatrix();HUDL.forEach(f=>f())}
 let running=false,last=0;
 function frame(t){if(!running)return;requestAnimationFrame(frame);const dt=Math.min(.05,(t-last)/1000);last=t;const now=performance.now();
  for(let i=TW.length-1;i>=0;i--){const w=TW[i];const k=Math.min(1,(now-w.t0)/w.d);w.f(k);if(k>=1){TW.splice(i,1);w.res()}}
  UPD.forEach(f=>f(t/1000,dt));cam.position.lerp(rig.pos,rig.k);rig.cur.lerp(rig.look,rig.k);cam.lookAt(rig.cur);if(rig.shake>.003){cam.position.x+=(Math.random()-.5)*rig.shake;cam.position.y+=(Math.random()-.5)*rig.shake;rig.shake*=.9}R3.render(scene,cam)}
 function start3d(){$('#c').classList.add('on');if(running)return;running=true;last=performance.now();requestAnimationFrame(frame)}
 function stop3d(){running=false;$('#c').classList.remove('on')}
-function camOf(g){const c=g.cam();if(g.halfW){const hw=g.halfW(),p=new THREE.Vector3(...c.p),l=new THREE.Vector3(...c.l),d=p.distanceTo(l),vis=Math.tan(THREE.MathUtils.degToRad(c.fov/2))*(innerWidth/innerHeight)*d;if(vis<hw){p.sub(l).multiplyScalar(hw/vis).add(l);c.p=[p.x,p.y,p.z]}}return c}
+function camOf(g){const c=g.cam();if(g.halfW){const hw=g.halfW(),p=new THREE.Vector3(...c.p),l=new THREE.Vector3(...c.l),d=p.distanceTo(l),vis=Math.tan(THREE.MathUtils.degToRad(c.fov/2))*cam.aspect*d;if(vis<hw||g.fitExact){p.sub(l).multiplyScalar(hw/vis).add(l);c.p=[p.x,p.y,p.z]}}return c}
 function setCam(c,instant){cam.fov=c.fov;cam.updateProjectionMatrix();rig.pos.set(...c.p);rig.look.set(...c.l);if(instant){cam.position.copy(rig.pos);rig.cur.copy(rig.look)}}
 function clearTask(){TUPD.forEach(f=>UPD.delete(f));TUPD.clear();HUDL.length=0;clearGroup(HUD);clearGroup(T)}
 function clearWorld(){TW.length=0;UPD.clear();TUPD.clear();HUDL.length=0;rig.shake=0;clearGroup(HUD);clearGroup(FX);clearGroup(world);T=new THREE.Group();world.add(T)}
@@ -577,8 +610,127 @@ const GAMES=[
  async launch(t){sfx('hop');await Promise.all([...t.as.map((a,i)=>{a.userData.busy=true;return moveTo(a,t.rk[i].position.clone().setY(1.5),.5,.9).then(()=>{a.visible=false})}),...t.gems.map((g,i)=>moveTo(g,t.rk[i%t.k].position.clone().setY(1.2),.5,.6).then(()=>{g.visible=false}))]);
   sfx('launch');rig.shake=.4;t.rk.forEach((r,i)=>{r.userData.flame.visible=true;puff(r.position.clone().setY(.35),5,'#ffffff',.8);const y0=r.position.y,dl=i*.05;tw(1.9,k=>{const kk=Math.max(0,k-dl);r.position.y=y0+kk*kk*24;r.rotation.y+=.03;r.userData.flame.scale.set(1,1+Math.sin(k*70)*.3,1);if(Math.random()<.2&&kk>0&&kk<.5)puff(r.position.clone().setY(r.position.y-.2),1,'#e6e0ff',.5)})});await wait(1.7)},
  hint(t,s){return[`Бір айналымда әр ракетаға біреуден салсаң — ${t.k} кристал кетеді.`,`${ab(t.k)} санап көр: ${t.k}, ${2*t.k}, … ${da(t.tot)} дейін.`,`Неше рет санадың? Әр ракетаға сонша кристал.`][s-1]},
- async finale(){say('Барлық ракета ғарышқа ұшты! Керемет командир!');fireworks(new THREE.Vector3(0,5,0),5);sfx('up');await wait(1.8)}}
+ async finale(){say('Барлық ракета ғарышқа ұшты! Керемет командир!');fireworks(new THREE.Vector3(0,5,0),5);sfx('up');await wait(1.8)}},
+/* 4, 5 — топтық жарыстар */
+{id:'wrace',race:true,icon:'trophy',title:'Есеп жарысы',c:'#ffd96a',tag:'Мәтіндік есеп · 3 топ',desc:'Сынып 3 топқа бөлінеді. Әр топқа 8 мәтіндік есеп, секундомер жүреді. Қате жауап — 2 секунд кідіріс. Кім бірінші мәреге жетеді?',get bank(){return WB},fitExact:true,cam(){return{p:[1.6,8.5,15],l:[1.6,.2,-.4],fov:40}},halfW(){return port()?18:21.5}},
+{id:'lrace',race:true,icon:'puzzle',title:'Логика жарысы',c:'#c9b6ff',tag:'Логикалық есеп · 3 топ',desc:'Сол жарыс, бірақ логикалық есептермен: заңдылық, таразы, жұп-тақ, «мен сан ойладым».',get bank(){return LB},fitExact:true,cam(){return{p:[1.6,8.5,15],l:[1.6,.2,-.4],fov:40}},halfW(){return port()?18:21.5}}
 ];
+
+/* ================= ЖАРЫС: 3 топ, 8 есеп ================= */
+const WB={ /* мәтіндік есептер */
+1:[
+ ()=>{const n=R(2,9);return{q:`${n} велосипед тұр. Әрқайсында 2 дөңгелек бар. Барлығы неше дөңгелек?`,a:2*n}},
+ ()=>{const n=R(2,9);return{q:`Ағашта ${n} құс отыр. Әр құстың 2 қанаты бар. Барлығы неше қанат?`,a:2*n}},
+ ()=>{const n=R(2,9);return{q:`Сөреде ${n} жұп аяқ киім тұр. Барлығы неше аяқ киім?`,a:2*n}},
+ ()=>{const k=R(2,6);return{q:`Кенгуру бір секіргенде 5 метр жүреді. ${k} рет секірсе, неше метр жүреді?`,a:5*k}},
+ ()=>{const k=R(2,6);return{q:`${k} себет бар. Әр себетте 3 алма. Барлығы неше алма?`,a:3*k}},
+ ()=>{const k=R(2,6);return{q:`${k} үстел тұр. Әр үстелдің 4 аяғы бар. Барлығы неше аяқ?`,a:4*k}},
+ ()=>{const n=R(2,9);return{q:`${n} бала екі қолын да көтерді. Барлығы неше қол көтерілді?`,a:2*n}},
+ ()=>{const k=R(2,5);return{q:`Бір қорапта 5 қарындаш бар. ${k} қорапта неше қарындаш бар?`,a:5*k}}],
+2:[
+ ()=>{const n=R(2,7),m=R(1,5);return{q:`Себетте ${n} жұп қолғап бар. Тағы ${m} қолғап салды. Барлығы неше қолғап?`,a:2*n+m}},
+ ()=>{const n=R(3,10);return{q:`Апам ${2*n} шұлықты жұп-жұбымен жинады. Неше жұп шықты?`,a:n}},
+ ()=>{const k=R(6,9),m=R(2,4);return{q:`${k*m} алманы ${k} балаға тең бөлді. Әр балаға нешеден тиді?`,a:m}},
+ ()=>{const n=R(3,10);return{q:`Асқар мен Әлиде барлығы ${2*n} асық бар. Екеуінде тең. Асқарда неше асық?`,a:n}},
+ ()=>{const k=R(3,6),m=R(2,9);return{q:`${k} қорапта 5-тен қарындаш бар. Оның ${m}-${m===6||m===9?'ын':m===2||m===7||m===8?'ін':'ін'} таратты. Неше қарындаш қалды?`,a:5*k-m}},
+ ()=>{const k=R(2,6),m=R(1,6);return{q:`${k} пакетте 3-тен кәмпит бар. Тағы ${m} кәмпит қосты. Барлығы неше кәмпит?`,a:3*k+m}},
+ ()=>{const n=R(3,9);return{q:`Дүкен ${n} велосипед сатты. Тағы 1 дөңгелекті бөлек сатты. Барлығы неше дөңгелек сатылды?`,a:2*n+1}},
+ ()=>{const k=R(3,6),m=R(1,5);return{q:`Автобуста ${k} қатар бар, әр қатарда 4 орын. ${m} орын бос. Неше орында адам отыр?`,a:4*k-m}}],
+3:[
+ ()=>{const m=R(3,9),r=R(1,6);return{q:`Әжесі 2 немересіне ${m} бауырсақтан берді. Табақта тағы ${r} бауырсақ қалды. Басында неше бауырсақ болған?`,a:2*m+r}},
+ ()=>{const c=R(3,8);return{q:`Аулада ${c} тауық және 1 ит жүр. Олардың барлығында неше аяқ бар?`,a:2*c+4}},
+ ()=>{const n=R(5,10),g=R(1,3);return{q:`${2*n} оқушы қос-қостан тұрды. Сосын ${g} жұп кетіп қалды. Неше жұп қалды?`,a:n-g}},
+ ()=>{const st=pick([5,4,3]),s=st===5?pick([50,45]):st===4?pick([48,40]):pick([45,48,39]),p=R(3,5);return{q:`Сабина ${s} санынан бастап ${st} санын азайтып кері санады: ${s}, ${s-st}, … Ол айтқан ${p}-ші сан қандай?`,a:s-st*(p-1)}},
+ ()=>{const k=R(6,9),m=R(3,5);return{q:`${k*m} кәмпитті ${k} балаға тең бөлді. Әр бала 1 кәмпитін жеп қойды. Әр балада нешеден қалды?`,a:m-1}},
+ ()=>{const a=R(2,6),b=R(1,4);return{q:`Аулада ${a} екі дөңгелекті және ${b} үш дөңгелекті велосипед тұр. Барлығы неше дөңгелек?`,a:2*a+3*b}},
+ ()=>{const k=R(3,8);return{q:`Бір өшіргіш 5 теңге тұрады. Айгүл ${k} өшіргіш алып, 50 теңге берді. Қайтарымы неше теңге?`,a:50-5*k}},
+ ()=>{const n=R(5,10),g=R(1,4);return{q:`Екі қорапта тең алма бар, барлығы ${2*n} алма. Бір қораптан ${g} алма алды. Сол қорапта неше алма қалды?`,a:n-g}}]};
+const evens=n=>shuffle(Array.from({length:12},(_,i)=>2*(i+1))).slice(0,n),odds=n=>shuffle(Array.from({length:12},(_,i)=>2*i+3)).slice(0,n);
+const LB={ /* логикалық есептер */
+1:[
+ ()=>{const s=2*R(1,4),a=[0,1,2,3,4].map(i=>s+2*i),m=R(1,3);return{q:`Жасырын санды тап: ${a.map((v,i)=>i===m?'?':v).join(', ')}`,a:a[m]}},
+ ()=>{const a=[5,10,15,20,25,30],s=R(0,2),m=R(1,2),b=a.slice(s,s+4);return{q:`Заңдылықты тап: ${b.map((v,i)=>i===m?'?':v).join(', ')}`,a:b[m]}},
+ ()=>{const o=odds(1)[0],e=evens(3);return{q:`Қай сан артық? ${shuffle([o,...e]).join(', ')}`,a:o,o:[o,...e]}},
+ ()=>{const e=evens(1)[0],o=odds(3);return{q:`Осы сандардың қайсысы жұп сан?`,a:e,o:[e,...o]}},
+ ()=>{const o=odds(1)[0],e=evens(3);return{q:`Осы сандардың қайсысы тақ сан?`,a:o,o:[o,...e]}},
+ ()=>{const n=R(2,6);return{q:`${2*n} бала қос-қостан тұрды. Неше жұп шықты?`,a:n}},
+ ()=>{const n=R(2,4);return{q:`Таразы: 1 алма = 2 шие. Сонда ${n} алма = неше шие?`,a:2*n}},
+ ()=>{const n=R(5,12);return{q:`Мен бір сан ойладым. Оған 2-ні қоссам, ${n} шығады. Мен қай санды ойладым?`,a:n-2}}],
+2:[
+ ()=>{const st=pick([3,4,5]),s=st*R(1,3),a=[0,1,2,3,4].map(i=>s+st*i),m=R(1,3);return{q:`Жасырын санды тап: ${a.map((v,i)=>i===m?'?':v).join(', ')}`,a:a[m]}},
+ ()=>{const n=R(3,7);return{q:`Таразы: 1 алма = 2 шие. Сонда ${n} алма = неше шие?`,a:2*n}},
+ ()=>{const n=R(3,10);return{q:`Мен бір сан ойладым. Оны 2-ге көбейтсем, ${2*n} шығады. Мен қай санды ойладым?`,a:n}},
+ ()=>{const g=shuffle([5,10,15,20,25,30,35,40,45,50]).slice(0,3),b=pick([12,22,33,42,18,27,44,36]);return{q:`5-тен санағанда қай сан кездеспейді?`,a:b,o:[b,...g]}},
+ ()=>{const g=3*R(2,10),b=shuffle([4,7,8,10,11,13,14,16,17,19,20,22,23,25,26,28]).slice(0,3);return{q:`3-тен санағанда қай сан кездеседі? (3, 6, 9, …)`,a:g,o:[g,...b]}},
+ ()=>{const st=pick([3,4,5]),s=st*R(1,4);return{q:`Келесі сан қандай? ${[0,1,2,3].map(i=>s+st*i).join(', ')}, ?`,a:s+st*4}},
+ ()=>{const n=R(3,9);return{q:`Қатарда ${2*n} бала тұр. Әр екінші бала алға шықты. Неше бала алға шықты?`,a:n}},
+ ()=>{const k=R(1,5);return{q:`Заңдылықты тап: ${[0,1,2].map(i=>11*(k+i)).join(', ')}, ?`,a:11*(k+3)}}],
+3:[
+ ()=>{const st=pick([3,4,5]),s=R(38,50),a=[0,1,2,3,4].map(i=>s-st*i),m=R(1,3);return{q:`Жасырын санды тап: ${a.map((v,i)=>i===m?'?':v).join(', ')}`,a:a[m]}},
+ ()=>{const n=R(1,4);return{q:`1 қарбыз = 2 алма, ал 1 алма = 2 шие. Сонда ${n} қарбыз = неше шие?`,a:4*n}},
+ ()=>{const n=R(3,9);return{q:`Мен бір сан ойладым. Оны 2-ге көбейтіп, 3-ті қостым. ${2*n+3} шықты. Мен қай санды ойладым?`,a:n}},
+ ()=>{const k=R(2,9);return{q:`Қатар тұрған екі жұп санның қосындысы ${4*k+2}. Олардың кішісі қандай?`,a:2*k}},
+ ()=>{const a=R(1,6),st=pick([3,4,5]);return{q:`Сандар тізбегі: ${a}, ${a+st}, ${a+2*st}, … Осы тізбектің 5-ші саны қандай?`,a:a+4*st}},
+ ()=>{const s=R(1,3);return{q:`Әр сан алдыңғысынан 2 есе үлкен: ${s}, ${2*s}, ${4*s}, ${8*s}, ?`,a:16*s}},
+ ()=>{const o=odds(1)[0]+10,e=evens(3).map(x=>x+10);return{q:`Жұп сан мен тақ санды қостым. Нәтижесі қайсысы болуы мүмкін?`,a:o,o:[o,...e]}},
+ ()=>{const n=R(4,10);return{q:`Арман баспалдақтан екі сатыдан аттап шықты. Ол ${n} қадам жасады. Баспалдақта неше саты бар?`,a:2*n}}]};
+const TEAMS=[{n:'Көк топ',c:'#5ab8ff',d:{c:'#d9a070',belly:'#ffe9cc',ear:'round',scarf:'#ffd96a'}},{n:'Қызғылт топ',c:'#ff7aa8',d:{c:'#f4f1ff',belly:'#ffffff',ear:'long',scarf:'#7ef0c4'}},{n:'Жасыл топ',c:'#4fd1a5',d:{c:'#ffc078',belly:'#fff3df',ear:'cat',scarf:'#c9b6ff'}}];
+let RC=null;
+const LX=i=>-10+i*2.5,LZ=[-2.6,0,2.6],fmt=s=>s.toFixed(1).replace('.',',');
+const raceVh=()=>port()?.3:.42;
+function checkerTex(){return TX.chk||(TX.chk=cvTex(128,32,(x,w,h)=>{for(let i=0;i<16;i++)for(let j=0;j<4;j++){x.fillStyle=(i+j)%2?'#2a1f5c':'#ffffff';x.fillRect(i*8,j*8,8,8)}}))}
+function buildRace(g){
+ if(g.id==='lrace')setSky('#1a1050','#5a4ac8','#c9b6ff');else setSky('#2a1f6e','#6f74e6','#a9d4ff');
+ const gr=mesh(new THREE.PlaneGeometry(140,90),Mt('grassBig',()=>{const t=grassTex().clone();t.repeat.set(26,18);t.needsUpdate=true;return{map:t,roughness:.95}}),{cast:false,recv:true});gr.rotation.x=-Math.PI/2;
+ mesh(RB(29,.12,8.8,.05),M('#7d77c9'),{x:.5,y:.04,recv:true});
+ [-1.3,1.3].forEach(z=>{for(let i=0;i<14;i++)mesh(G('rdash',()=>new THREE.BoxGeometry(1,.02,.12)),M('#ffffff'),{x:-12.5+i*2,y:.11,z,cast:false})});
+ [-4.35,4.35].forEach(z=>{for(let i=0;i<29;i++)mesh(G('curb',()=>new THREE.BoxGeometry(1,.16,.3)),M(i%2?'#ffffff':'#ff7aa8'),{x:-13.5+i,y:.1,z})});
+ mesh(G('sline',()=>new THREE.BoxGeometry(.3,.02,8.4)),M('#ffffff'),{x:LX(0)+1.4,y:.11,cast:false});
+ for(let i=1;i<=8;i++){const x=LX(i)+1.4;mesh(G('cpost',()=>new THREE.CylinderGeometry(.06,.06,1.7,6)),M('#f4f6ff'),{x,y:.85,z:-4.9});const s=textSprite(String(i),i===8?'#ffd96a':'#ffffff',.95);s.position.set(x,2.05,-4.9);world.add(s);if(i<8)mesh(G('cline',()=>new THREE.BoxGeometry(.08,.02,8.4)),M('#ffffff',{transparent:true,opacity:.4}),{x,y:.105,cast:false})}
+ const fx=LX(8)+1.4;const fl=mesh(new THREE.PlaneGeometry(1.2,8.4),new THREE.MeshStandardMaterial({map:checkerTex(),roughness:.8}),{x:fx+.4,y:.112,cast:false});fl.rotation.x=-Math.PI/2;fl.rotation.z=Math.PI/2;
+ [-4.7,4.7].forEach(z=>{mesh(G('fpost',()=>new THREE.CylinderGeometry(.16,.2,4.6,10)),M('#ffd96a'),{x:fx,y:2.3,z});mesh(SG(.28),M('#ff7aa8'),{x:fx,y:4.7,z})});
+ const bn=mesh(new THREE.BoxGeometry(.2,1,9.4),[new THREE.MeshStandardMaterial({map:checkerTex()}),new THREE.MeshStandardMaterial({map:checkerTex()}),M('#ffffff'),M('#ffffff'),M('#ffffff'),M('#ffffff')],{x:fx,y:4,z:0});
+ /* көрермендер */
+ mesh(RB(16,.7,2.4,.2),M('#c9b6ff'),{x:0,y:.35,z:-7.4,recv:true});mesh(RB(16,.7,1.2,.2),M('#b9a2ff'),{x:0,y:1.05,z:-8.4,recv:true});
+ const fans=[];for(let i=0;i<9;i++){const f=alive(critter(Object.assign({scarf:TEAMS[i%3].c},AST[i%AST.length])));f.position.set(-6.4+i*1.6,i%2?1.4:.7,i%2?-8.4:-7.2);f.scale.setScalar(.9);world.add(f);fans.push(f)}
+ let ct=1;onUpd((t,dt)=>{ct-=dt;if(ct<0){ct=.5+Math.random();cheer(pick(fans))}},false);
+ [[-11,-7.5,1.2],[11.5,-8,1.3],[15,-6.5,1]].forEach(([x,z,s])=>pine(x,z,s));[[-14.5,-7,1.1],[9.2,-9.5,1],[-9,-10,1.2]].forEach(([x,z,s])=>roundTree(x,z,s));
+ [[-12.5,-5.6],[13,-5.4],[6,-10],[-4,-10.4]].forEach(([x,z])=>bush(x,z,1));
+ [[-13,5.6,'#ff9ad0'],[-9,6.2,'#ffe14d'],[-3,6,'#ffffff'],[3,6.4,'#c9b6ff'],[8,5.8,'#ff9ad0'],[12.5,6.2,'#ffe14d']].forEach(([x,z,c])=>flower(x,z,c));
+ [[-12.6,-4.9],[fx+1.6,-5.4],[fx+1.6,5.4]].forEach(([x,z],k)=>{for(let j=0;j<3;j++){const b=mesh(SG(.34),M(TEAMS[(j+k)%3].c,{roughness:.3}),{x:x+(j-1)*.42,y:2.5+(j%2)*.35,z});b.scale.y=1.18;mesh(G('bstr',()=>new THREE.CylinderGeometry(.012,.012,2,4)),M('#ffffff'),{x:x+(j-1)*.2,y:1.2,z,cast:false});const ph=j+k;onUpd(t=>{b.position.y=2.5+(j%2)*.35+Math.sin(t*1.5+ph)*.08},false)}});
+ cloud(-10,11,-22,1.6);cloud(9,12.5,-24,1.4);cloud(0,14,-30,1.9);
+ RC.cars=TEAMS.map((t,i)=>{const c=car(t.c,t.d);c.position.set(LX(0),.1,LZ[i]);world.add(c);alive(c.userData.driver);const nb=textSprite(String(i+1),t.c,.7);nb.position.set(-.2,2.35,0);c.add(nb);return c});
+}
+function raceDrive(car,x,sec){const from=car.position.x,d=x-from;car.userData.tg=x;return tw(sec||.8,k=>{if(car.userData.tg!==x)return;const nx=from+d*eout(k),dx=nx-car.position.x;car.position.x=nx;car.userData.wheels.forEach(w=>w.rotation.z-=dx/.36);car.userData.body.position.y=Math.abs(Math.sin(k*Math.PI*4))*.03})}
+async function startRace(g){try{await init3d()}catch(e){$('#loading').classList.remove('on');alert('3D жүктелмеді. Интернетті тексеріңіз.');return}
+ raceStop();cur=null;RC={g,lv:S.mode==='ai'?2:+S.mode,teams:[],running:false,fin:0,timer:null};
+ show('race');clearWorld();buildRace(g);resize3d();setCam(camOf(g),true);start3d();$('#rttl').innerHTML=ico(g.icon,28)+' '+g.title;raceIntro()}
+function raceIntro(){const rc=RC,P=$('#rpanels');P.className='rpanels intro';
+ P.innerHTML=`<div class="rcard"><h2>${rc.g.title}</h2><p>Сынып <b>3 топқа</b> бөлінеді. Әр топқа бірдей деңгейдегі <b>8 есеп</b> беріледі. Топ мүшелері <b>кезекпен</b> жауап береді. Қате жауап — <b>2 секунд кідіріс</b>. 8 есепті бірінші шешкен топ жеңеді!</p><div class="row"><span class="lbl">Деңгей:</span><div class="seg" id="rseg">${[1,2,3].map(l=>`<button data-l="${l}" class="${l===rc.lv?'on':''}">${LV[l].k} · ${LV[l].name.toLowerCase()}</button>`).join('')}</div></div><div class="btns" style="margin-top:14px"><button class="bigb" id="rgo">Бастау</button></div></div>`;
+ $('#rseg').onclick=e=>{const b=e.target.closest('button');if(!b)return;rc.lv=+b.dataset.l;P.querySelectorAll('#rseg button').forEach(x=>x.classList.toggle('on',x===b));sfx('tap')};$('#rgo').onclick=raceCount}
+function mkTask(o){return{q:o.q,a:o.a,o:o.o?shuffle(o.o.slice()):nearOpts(o.a,[o.a+1,o.a-1,o.a+2,o.a-2,o.a+3,o.a+5,o.a-3])}}
+async function raceCount(){const rc=RC;sfx('tap');const P=$('#rpanels'),order=shuffle([0,1,2,3,4,5,6,7]),bank=rc.g.bank[rc.lv];
+ rc.teams=TEAMS.map((t,i)=>({i,t,idx:0,wrong:0,pause:0,done:false,time:0,tasks:order.map(k=>mkTask(bank[k]()))}));
+ P.className='rpanels wait';P.innerHTML=rc.teams.map(tm=>`<div class="tp" id="tp${tm.i}" style="--tc:${tm.t.c}"><div class="th"><b class="tb">${tm.i+1}</b><b>${tm.t.n}</b><span class="tn"></span><span class="tt">0 с</span></div><div class="tq"></div><div class="to"></div><div class="pz"></div></div>`).join('');
+ rc.teams.forEach(raceRender);const c=$('#rcount');
+ for(const s of ['3','2','1','Алға!']){if(RC!==rc)return;c.textContent=s;c.className='on';void c.offsetWidth;c.classList.add('pop');tone(s==='Алға!'?880:440,.25,'triangle',.2);await new Promise(r=>setTimeout(r,s==='Алға!'?500:800))}
+ c.className='';if(RC!==rc)return;P.className='rpanels';rc.t0=performance.now();rc.running=true;rc.timer=setInterval(raceTick,100)}
+function raceRender(tm){const el=$('#tp'+tm.i);if(!el||tm.done)return;const tk=tm.tasks[tm.idx];el.querySelector('.tn').textContent=`${tm.idx+1}/8 · кезек: ${tm.idx+1}-оқушы`;el.querySelector('.tq').textContent=tk.q;const to=el.querySelector('.to');to.innerHTML='';
+ tk.o.forEach(v=>{const b=document.createElement('button');b.textContent=v;b.onpointerdown=e=>{e.preventDefault();racePick(tm,v,b)};to.append(b)})}
+function racePick(tm,v,b){const rc=RC;if(!rc||!rc.running||tm.done)return;const now=performance.now();if(now<tm.pause)return;const tk=tm.tasks[tm.idx],cr=rc.cars[tm.i],el=$('#tp'+tm.i);
+ if(v===tk.a){sfx('good');tm.idx++;confetti(new THREE.Vector3(LX(tm.idx),1.6,LZ[tm.i]),10);
+  if(tm.idx>=8){tm.done=true;tm.time=(now-rc.t0)/1000;tm.place=++rc.fin;raceDrive(cr,LX(8)+4.2,1.4);el.classList.add('done');el.querySelector('.tt').textContent=fmt(tm.time)+' с';el.querySelector('.tn').textContent='8/8';
+   el.querySelector('.tq').innerHTML=`<div class="fin">${tm.place===1?ico('trophy',56):''}<b>${tm.place}-орын</b><span>${fmt(tm.time)} секунд · қате: ${tm.wrong}</span></div>`;el.querySelector('.to').innerHTML='';
+   if(tm.place===1){sfx('up');fireworks(new THREE.Vector3(9,4,LZ[tm.i]),4);cheer(cr.userData.driver);$('#rend').classList.add('on')}
+   if(rc.fin>=3)setTimeout(()=>{if(RC===rc)raceResults()},2200)}
+  else{raceDrive(cr,LX(tm.idx));raceRender(tm)}}
+ else{sfx('bad');try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}tm.wrong++;tm.pause=now+2000;el.classList.add('paused');el.querySelector('.pz').innerHTML='Қате!<br>2 с күт';puff(cr.position.clone().setY(1.2),3,'#e6e0ff',.5);const bd=cr.userData.body;tw(.45,k=>bd.rotation.z=Math.sin(k*Math.PI*6)*.09*(1-k));sadNo(cr.userData.driver)}}
+function raceTick(){const rc=RC;if(!rc||!rc.running)return;const now=performance.now();rc.teams.forEach(tm=>{if(tm.done)return;const el=$('#tp'+tm.i);if(!el)return;el.querySelector('.tt').textContent=Math.floor((now-rc.t0)/1000)+' с';
+ if(tm.pause){if(now<tm.pause)el.querySelector('.pz').innerHTML='Қате!<br>'+Math.ceil((tm.pause-now)/1000)+' с күт';else{tm.pause=0;el.classList.remove('paused')}}})}
+function raceResults(){const rc=RC;if(!rc)return;const key=t=>t.done?t.time:1e6-t.idx;const rows=rc.teams.slice().sort((a,b)=>key(a)-key(b)),g=rc.g;
+ $('#endc').innerHTML=`<div class="lg">${ico('trophy',96)}</div><h1>${g.title}</h1><div class="sub">Деңгей: ${LV[rc.lv].k} · ${LV[rc.lv].name}</div><div class="panel">${rows.map((tm,i)=>`<div class="rrow" style="--tc:${tm.t.c}"><b class="pl">${i+1}</b><span class="nm2">${tm.t.n}</span><b>${tm.done?fmt(tm.time)+' с':tm.idx+'/8 есеп'}</b><span class="wr">қате: ${tm.wrong}</span></div>`).join('')}</div><div class="btns"><button class="bigb" id="again">Қайта жарыс</button><button class="bigb alt" id="home2">Басқа ойын</button></div>`;
+ raceStop();show('end');sfx('up');$('#again').onclick=()=>startRace(g);$('#home2').onclick=goHome}
+function raceStop(){if(RC){clearInterval(RC.timer);RC=null}$('#rend').classList.remove('on');$('#rcount').className='';$('#c').style.height=''}
 
 /* ================= ОЙЫН ЛОГИКАСЫ ================= */
 const S={mode:'ai',name:'',res:{}};
@@ -586,13 +738,13 @@ try{const d=JSON.parse(localStorage.getItem('nu_kob3d')||'{}');if(d.res)S.res=d.
 const save=()=>{try{localStorage.setItem('nu_kob3d',JSON.stringify(S))}catch(e){}};
 let cur=null;
 const MHINT={ai:'AI оқушыны бақылайды: қатарынан 2 дұрыс — деңгей көтеріледі, 2 қате — түсіп, көмектеседі.','1':'A — көрнекі: қораптар, жапырақтар, кристалдар. Әлсіз оқушыға немесе жаңа тақырыпқа.','2':'B — сандармен есептеу, тура және кері санау. Орта топқа.','3':'C — кері есеп, логика, екі қадамды есептер. Күшті оқушыға.'};
-function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===id));$('#play').classList.toggle('on',id==='play');if(id!=='play')stop3d();scrollTo(0,0)}
+function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===id));$('#play').classList.toggle('on',id==='play');$('#race').classList.toggle('on',id==='race');if(id!=='play'&&id!=='race')stop3d();scrollTo(0,0)}
 function say(t){const b=$('#bub');b.innerHTML='<span class="who">'+ico('robot',14)+' Ақыл · AI-көмекші</span>'+emo(t);b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}
 function q(html){const c=$('#q');c.innerHTML=emo(html);const b=el('button','spk',ico('spk',22));b.onclick=()=>speak(html);c.append(b)}
 function setBar(){const L=LV[cur.lv];const lb=$('#lvb');lb.style.background=L.c;lb.innerHTML=`${L.k} <small>${L.name}</small>`;
  $('#prog').innerHTML=Array.from({length:TOTAL},(_,i)=>{const p=cur.path[i];return`<i class="${p?(p.ok?'ok':'hl'):i===cur.n?'now':''}"></i>`}).join('')}
 function lvFx(){const L=LV[cur.lv];const f=el('div','lvflash',L.k);f.style.color=L.c;document.body.append(f);setTimeout(()=>f.remove(),1250);sfx('up');const lb=$('#lvb');lb.classList.remove('up');void lb.offsetWidth;lb.classList.add('up')}
-async function startGame(id){const g=GAMES.find(x=>x.id===id);try{await init3d()}catch(e){$('#loading').classList.remove('on');alert('3D жүктелмеді. Интернетті тексеріңіз.');return}
+async function startGame(id){const g=GAMES.find(x=>x.id===id);if(g.race)return startRace(g);raceStop();try{await init3d()}catch(e){$('#loading').classList.remove('on');alert('3D жүктелмеді. Интернетті тексеріңіз.');return}
  const prev=S.res[id];cur={g,lv:S.mode==='ai'?(prev?Math.max(1,prev.lv):1):+S.mode,n:0,ok:0,streak:0,bad:0,path:[]};
  $('#ttl').innerHTML=ico(g.icon,30)+' '+g.title;show('play');clearWorld();g.build();resize3d();const c=camOf(g);if(g.follow){cam.fov=c.fov;cam.updateProjectionMatrix();cam.position.copy(rig.pos);rig.cur.copy(rig.look)}else setCam(c,true);start3d();
  say(S.mode==='ai'?`Сәлем${S.name?', '+S.name:''}! Мен — Ақыл. Деңгейді өзім таңдаймын: қазір <b>${LV[cur.lv].k}</b>. Қиналсаң — «Көмек» бас!`:`Деңгей: <b>${LV[cur.lv].k} · ${LV[cur.lv].name}</b>. Қиналсаң — «Көмек» бас.`);next()}
@@ -613,12 +765,12 @@ async function finish(){const c=cur;c.locked=true;clearTask();$('#q').style.visi
   <div class="legend">Баған биіктігі — деңгей (A, B, C) · ✗ — қате немесе көмекпен</div><p style="font-weight:700;margin:10px 0 0">${cm}</p></div>
   <div class="btns"><button class="bigb" id="again">Қайта ойнау</button><button class="bigb alt" id="home2">Басқа ойын</button></div>`;
  cur=null;show('end');sfx('up');$('#again').onclick=()=>startGame(g.id);$('#home2').onclick=goHome}
-function goHome(){cur=null;TW.length=0;try{speechSynthesis.cancel()}catch(e){}renderHome();show('home')}
+function goHome(){raceStop();cur=null;TW.length=0;try{speechSynthesis.cancel()}catch(e){}renderHome();show('home')}
 function renderHome(){$('#nm').value=S.name;document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.m===String(S.mode)));$('#mhint').textContent=MHINT[S.mode];
  const gr=$('#grid');gr.innerHTML='';GAMES.forEach(g=>{const r=S.res[g.id];const c=el('button','card',`<span class="ic">${ico(g.icon,62)}</span><h3>${g.title}</h3><p>${g.desc}</p><span class="tag">${g.tag}</span>${r?`<span class="done">${ico('star',14).repeat(r.st)} ${LV[r.lv].k}</span>`:''}`);c.style.setProperty('--c',g.c);c.onclick=()=>{sfx('tap');startGame(g.id)};gr.append(c)})}
 $('#seg').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.mode=b.dataset.m==='ai'?'ai':+b.dataset.m;save();renderHome();sfx('tap')};
 $('#nm').oninput=e=>{S.name=e.target.value.trim();save()};
-$('#back').onclick=goHome;$('#hintBtn').onclick=hint;
+$('#back').onclick=goHome;$('#rback').onclick=goHome;$('#rend').onclick=()=>raceResults();$('#hintBtn').onclick=hint;
 $('#toRep').onclick=()=>{const played=GAMES.filter(g=>S.res[g.id]);let h=`<div class="rtop"><button class="back" id="rb">⬅</button>Саралау есебі${S.name?' · '+S.name:''}</div>`;
  if(!played.length)h+=`<div class="panel" style="text-align:center">Әлі ойын ойналған жоқ. Кез келген ойынды бастаңыз — AI деңгейді өзі анықтайды.</div>`;
  else{const avg=played.reduce((s,g)=>s+S.res[g.id].lv,0)/played.length,grp=avg<1.67?1:avg<2.34?2:3;
@@ -629,13 +781,13 @@ $('#toRep').onclick=()=>{const played=GAMES.filter(g=>S.res[g.id]);let h=`<div c
 $('#toInfo').onclick=()=>{$('#mbox').innerHTML=`<h2>Ойын арқылы саралау</h2>
  <h4>Үш деңгей (әр ойында)</h4><ul><li><b>A · базалық</b> — көрнекі: қораптағы жемістер, 5-тен санау, 6 ракета; бір қадам.</li><li><b>B · орта</b> — тек сандармен: 2·n, 3/4/5-тен тура санау, 6–9 ракета.</li><li><b>C · жоғары</b> — кері есеп (2·? = 14), 50-ден кері санау, көп кристалды тең бөлу.</li></ul>
  <h4>AI автомат режимі</h4><ul><li>Әр оқушы A-дан бастайды. Қатарынан 2 рет бірден дұрыс → деңгей көтеріледі.</li><li>Қатарынан 2 тапсырмада қате → деңгей түседі, AI жеңілірек тапсырма береді.</li><li>«Көмек» — 3 қадам. Көмекпен табылған жауап «бірден дұрыс» болып саналмайды.</li><li>Соңында «Саралау есебі» оқушыны A, B, C тобына бөліп, келесі сабаққа ұсыныс береді.</li></ul>
- <h4>Сабақта қолдану реті</h4><ul><li>1. Ой қозғау — Бақа секірісі (3, 4, 5-тен тура және кері санау).</li><li>2. Жаңа тақырып — Көпір құрылысы (2-ге көбейту кестесі).</li><li>3. Бекіту — Ракета жүгі (6, 7, 8, 9 тең бөлікке бөлу).</li></ul>
+ <h4>Сабақта қолдану реті</h4><ul><li>1. Ой қозғау — Бақа секірісі (3, 4, 5-тен тура және кері санау).</li><li>2. Жаңа тақырып — Көпір құрылысы (2-ге көбейту кестесі).</li><li>3. Бекіту — Ракета жүгі (6, 7, 8, 9 тең бөлікке бөлу).</li><li>4. Мәтіндік және логикалық есеп — Есеп жарысы, Логика жарысы: сынып 3 топқа бөлініп, тақтада жарысады.</li></ul>
  <h4>Тақтада</h4><ul><li>Бүкіл сыныппен ойнағанда деңгейді қолмен таңдаңыз (A/B/C).</li><li>Бір құрылғыда бірнеше оқушы: есеп бетінде «тазалау» басып, келесі оқушының атын жазыңыз.</li></ul>
  <div class="btns"><button class="bigb" id="mclose">Түсінікті</button></div>`;$('#modal').classList.add('on');$('#mclose').onclick=()=>$('#modal').classList.remove('on')};
 $('#modal').onclick=e=>{if(e.target.id==='modal')$('#modal').classList.remove('on')};
 $('#hlogo').innerHTML=ico('flask',84);document.querySelectorAll('.rbi').forEach(e=>e.innerHTML=ico('robot',20));$('#rbot').innerHTML=ico('robot',52);
 renderHome();
-window.__dbg={GAMES,get cur(){return cur},get HUD(){return HUD},startGame,next,right,hint};
+window.__dbg={GAMES,get cur(){return cur},get HUD(){return HUD},get RC(){return RC},startGame,next,right,hint};
 const Q=new URLSearchParams(location.search);if(Q.get('demo')){if(Q.get('lv'))S.mode=+Q.get('lv');startGame(Q.get('demo'))}
 </script>
 </body>
