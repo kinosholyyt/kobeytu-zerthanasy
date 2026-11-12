@@ -139,28 +139,85 @@ table.rep{width:100%;border-collapse:collapse;font-size:14px}
 .mbox li{margin:6px 0;line-height:1.4;font-weight:600}
 .sv{display:inline-block;vertical-align:middle;overflow:visible;flex:none}
 @media (max-width:520px){.bub{font-size:13.5px}.bot .rb{width:44px;height:44px}#hintBtn{padding:0 9px;font-size:14px}}
+
+/* ===== басты бет: жаңа дизайн ===== */
+#home{max-width:1080px;padding-bottom:60px}
+#home>*{position:relative;z-index:1}
+.deco{position:fixed!important;inset:0;z-index:0!important;pointer-events:none;overflow:hidden}
+.deco i{position:absolute;display:grid;place-items:center;width:var(--s);height:var(--s);border-radius:28%;background:var(--c);color:#2a1f5c;font-style:normal;font-weight:900;font-size:calc(var(--s)*.56);box-shadow:var(--clay);opacity:.42;transform:rotate(var(--r));animation:drift var(--d) ease-in-out infinite alternate}
+@keyframes drift{to{transform:translateY(-28px) rotate(calc(var(--r) + 14deg))}}
+.hero2{text-align:center;padding:18px 0 4px;color:#fff}
+.trio{display:flex;justify-content:center;align-items:flex-end;gap:clamp(8px,2.5vw,22px);margin-bottom:6px}
+.ped{display:grid;place-items:center;width:clamp(78px,15vw,112px);height:clamp(78px,15vw,112px);border-radius:50%;box-shadow:var(--clay),0 0 0 6px #ffffff1c;animation:fl 4s ease-in-out infinite}
+.ped .sv{width:72%;height:72%;filter:drop-shadow(0 8px 6px #0004)}
+.ped.p1{background:#bfe4ff;animation-delay:-.6s}.ped.p3{background:#ffc9e6;animation-delay:-1.8s}
+.ped.p2{background:#b9f6dd;width:clamp(96px,19vw,144px);height:clamp(96px,19vw,144px);margin-bottom:14px}
+.hero2 h1{margin:6px 0 6px;font-size:clamp(44px,10vw,92px);line-height:1;letter-spacing:.5px;color:#fff;text-shadow:0 2px 0 #d9d0ff,0 5px 0 #7a69d6,0 9px 0 #22175a,0 18px 26px #0009}
+.hero2 h1 u{text-decoration:none;color:var(--y);text-shadow:0 2px 0 #fff3b0,0 5px 0 #e0a400,0 9px 0 #22175a,0 18px 26px #0009}
+.hero2 .sub{margin:10px 0 0;color:#e6defd;font-weight:800;font-size:clamp(14px,2vw,18px);display:flex;gap:10px;justify-content:center;align-items:center;flex-wrap:wrap}
+.hero2 .chip3d{margin:0;font-size:13px;padding:4px 12px;border-radius:14px;transform:rotate(-3deg)}
+.lvlbox{margin:24px auto 0;max-width:600px;text-align:center}
+.lvlt{color:#d9d0ff;font-weight:900;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px}
+.lvl{display:flex;gap:clamp(8px,2vw,16px);justify-content:center}
+.lvl button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:14px 6px 12px;border-radius:28px;background:#ffffff14;color:#fff;border:2px solid #ffffff2e;transition:transform .18s,background .18s,box-shadow .18s}
+.lvl button b{font-size:clamp(30px,6vw,44px);line-height:1;font-weight:900}
+.lvl button span{font-size:13px;font-weight:800;opacity:.9}
+.lvl button:hover{background:#ffffff24}
+.lvl button.on{color:var(--ink);border-color:transparent;box-shadow:var(--clay),0 0 0 6px #ffffff26;transform:translateY(-6px) scale(1.05)}
+.lvl button[data-m="1"].on{background:var(--la)}.lvl button[data-m="2"].on{background:var(--lb)}.lvl button[data-m="3"].on{background:var(--lc)}
+#home .mhint{color:#d9d0ff;margin-top:14px;font-size:14px;min-height:20px}
+.sec{color:#fff;font-size:clamp(20px,3vw,26px);font-weight:900;margin:34px 4px 14px;display:flex;align-items:baseline;gap:12px;text-shadow:0 3px 0 #22175a}
+.sec small{font-size:13px;color:#d9d0ff;font-weight:800;text-shadow:none}
+#home .grid{grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:22px;margin:0}
+#home .card{padding:0;overflow:hidden;border-radius:34px;background:#fff;display:flex;flex-direction:column;animation:rise .55s cubic-bezier(.2,1.2,.4,1) both;animation-delay:calc(var(--i)*80ms);transition:transform .2s,box-shadow .2s}
+@keyframes rise{from{opacity:0;transform:translateY(34px) scale(.94)}}
+#home .card:hover{transform:translateY(-8px);box-shadow:var(--clay),0 22px 30px #0e063a88}
+#home .card:active{transform:scale(.97)}
+.card .scn{position:relative;display:grid;place-items:center;height:158px;overflow:hidden}
+.card .scn>.sv{width:108px;height:108px;filter:drop-shadow(0 14px 10px #0006);animation:fl 4s ease-in-out infinite;transition:scale .25s}
+#home .card:hover .scn>.sv{scale:1.14}
+.card .rib{position:absolute;left:14px;top:14px;background:var(--y);color:var(--ink);font-weight:900;font-size:12px;padding:4px 10px;border-radius:12px;box-shadow:var(--clay);transform:rotate(-4deg)}
+#home .card .done{top:14px;right:14px}
+.card .bd{display:flex;flex-direction:column;gap:6px;flex:1;padding:14px 18px 16px}
+#home .card h3{margin:0;font-size:22px}
+#home .card p{font-size:14px;color:#4a4270}
+.card .ft{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:10px}
+#home .card .tag{margin:0;background:color-mix(in srgb,var(--c) 40%,#fff);border-radius:12px;padding:5px 10px}
+.card .go{flex:none;width:48px;height:48px;border-radius:50%;background:var(--y);box-shadow:var(--clay);display:grid;place-items:center;transition:transform .2s}
+.card .go:after{content:"";border-left:15px solid var(--ink);border-top:10px solid transparent;border-bottom:10px solid transparent;margin-left:5px}
+#home .card:hover .go{transform:scale(1.15) rotate(8deg)}
+#home .goals{margin:36px 0 0;gap:10px}
+#home .goal{background:#ffffff12;color:#e6defd;box-shadow:none;border:1px solid #ffffff24;font-weight:700;border-radius:16px}
+#home .goal b{background:#ffffff26;color:#fff;margin-right:4px}
+@media (max-width:520px){.card .scn{height:132px}.card .scn>.sv{width:92px;height:92px}.sec{margin-top:26px}}
 </style>
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 </head>
 <body>
 <section id="home" class="scr on">
- <div class="hero"><div class="lg" id="hlogo"></div>
+ <div class="deco" id="deco" aria-hidden="true"></div>
+ <header class="hero2">
+  <div class="trio"><span class="ped p1" id="hi1"></span><span class="ped p2" id="hi2"></span><span class="ped p3" id="hi3"></span></div>
   <h1>Көбейту <u>әлемі</u></h1>
-  <div class="sub">2-сынып · 2-ге көбейту кестесі · <span class="rbi"></span> AI-саралау</div>
-  <span class="chip3d">3D ойындар</span>
-  <div class="goals">
-   <div class="goal"><b>2.1.2.4</b> — 2-ге көбейту кестесін құру, білу және қолдану</div>
-   <div class="goal"><b>2.1.1.5</b> — 50-ге дейін 3, 4, 5-тен тура және кері санау, жұп/тақ, 6–9 тең бөлікке бөлу</div>
+  <p class="sub">2-сынып · 2-ге көбейту кестесі <b class="chip3d">3D ойындар</b></p>
+ </header>
+ <div class="lvlbox">
+  <div class="lvlt">Деңгейді таңда</div>
+  <div class="lvl" id="seg">
+   <button data-m="1"><b>A</b><span>Базалық</span></button>
+   <button data-m="2"><b>B</b><span>Орта</span></button>
+   <button data-m="3"><b>C</b><span>Жоғары</span></button>
   </div>
- </div>
- <div class="panel">
-  <div class="row" style="margin-bottom:10px"><span class="lbl">Оқушы:</span><input class="nm" id="nm" placeholder="Аты (міндетті емес)" maxlength="24"></div>
-  <div class="row"><span class="lbl">Деңгей:</span>
-   <div class="seg" id="seg"><button data-m="ai" class="on"><span class="rbi"></span> AI автомат</button><button data-m="1">A · базалық</button><button data-m="2">B · орта</button><button data-m="3">C · жоғары</button></div></div>
   <div class="mhint" id="mhint"></div>
  </div>
+ <h2 class="sec">Жеке ойна</h2>
  <div class="grid" id="grid"></div>
- <div class="btns"><button class="bigb" id="toRep">Саралау есебі</button><button class="bigb alt" id="toInfo">Мұғалімге</button></div>
+ <h2 class="sec">Топпен жарыс <small>3 топ · тақтада</small></h2>
+ <div class="grid g2" id="grid2"></div>
+ <div class="goals">
+  <div class="goal"><b>2.1.2.4</b> 2-ге көбейту кестесін құру, білу және қолдану</div>
+  <div class="goal"><b>2.1.1.5</b> 50-ге дейін 3, 4, 5-тен тура және кері санау, жұп/тақ, 6–9 тең бөлікке бөлу</div>
+ </div>
 </section>
 
 <canvas id="c"></canvas>
@@ -733,8 +790,8 @@ function raceResults(){const rc=RC;if(!rc)return;const key=t=>t.done?t.time:1e6-
 function raceStop(){if(RC){clearInterval(RC.timer);RC=null}$('#rend').classList.remove('on');$('#rcount').className='';$('#c').style.height=''}
 
 /* ================= ОЙЫН ЛОГИКАСЫ ================= */
-const S={mode:'ai',name:'',res:{}};
-try{const d=JSON.parse(localStorage.getItem('nu_kob3d')||'{}');if(d.res)S.res=d.res;if(d.name)S.name=d.name;if(d.mode)S.mode=d.mode}catch(e){}
+const S={mode:1,name:'',res:{}};
+try{const d=JSON.parse(localStorage.getItem('nu_kob3d')||'{}');if(d.res)S.res=d.res;if(d.mode&&d.mode!=='ai')S.mode=+d.mode||1}catch(e){}
 const save=()=>{try{localStorage.setItem('nu_kob3d',JSON.stringify(S))}catch(e){}};
 let cur=null;
 const MHINT={ai:'AI оқушыны бақылайды: қатарынан 2 дұрыс — деңгей көтеріледі, 2 қате — түсіп, көмектеседі.','1':'A — көрнекі: қораптар, жапырақтар, кристалдар. Әлсіз оқушыға немесе жаңа тақырыпқа.','2':'B — сандармен есептеу, тура және кері санау. Орта топқа.','3':'C — кері есеп, логика, екі қадамды есептер. Күшті оқушыға.'};
@@ -761,31 +818,39 @@ async function finish(){const c=cur;c.locked=true;clearTask();$('#q').style.visi
  const cm={1:'Көрнекі заттармен жақсы жұмыс істейді. Келесі қадам — сандармен есептеу (B).',2:'Сандармен сенімді есептейді. Келесі қадам — кері есеп пен логика (C).',3:'Жоғары деңгей! Логикалық, кері есептерді шешеді. Енді өзі есеп құрастырып, досына берсін.'}[lv];
  $('#endc').innerHTML=`<div class="lg">${ico(g.icon,96)}</div><h1>${g.title}</h1><div class="stars3">${[1,2,3].map(i=>`<span class="${i<=st?'':'off'}" style="animation-delay:${i*.15}s">${ico('star',58)}</span>`).join('')}</div>
   <div class="sub">Бірден дұрыс: <b style="color:#fff">${ok} / ${TOTAL}</b> · Соңғы деңгей: <span class="badge" style="background:${L.c}">${L.k}</span></div>
-  <div class="panel" style="text-align:center"><div class="lbl">AI-саралау жолы</div><div class="path">${path.map((p,i)=>`<i class="${p.ok?'':'x'}" style="height:${p.lv*30}px;background:${LV[p.lv].c};animation-delay:${i*.07}s"></i>`).join('')}</div>
+  <div class="panel" style="text-align:center"><div class="lbl">Жауаптар жолы</div><div class="path">${path.map((p,i)=>`<i class="${p.ok?'':'x'}" style="height:${p.lv*30}px;background:${LV[p.lv].c};animation-delay:${i*.07}s"></i>`).join('')}</div>
   <div class="legend">Баған биіктігі — деңгей (A, B, C) · ✗ — қате немесе көмекпен</div><p style="font-weight:700;margin:10px 0 0">${cm}</p></div>
   <div class="btns"><button class="bigb" id="again">Қайта ойнау</button><button class="bigb alt" id="home2">Басқа ойын</button></div>`;
  cur=null;show('end');sfx('up');$('#again').onclick=()=>startGame(g.id);$('#home2').onclick=goHome}
 function goHome(){raceStop();cur=null;TW.length=0;try{speechSynthesis.cancel()}catch(e){}renderHome();show('home')}
-function renderHome(){$('#nm').value=S.name;document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.m===String(S.mode)));$('#mhint').textContent=MHINT[S.mode];
- const gr=$('#grid');gr.innerHTML='';GAMES.forEach(g=>{const r=S.res[g.id];const c=el('button','card',`<span class="ic">${ico(g.icon,62)}</span><h3>${g.title}</h3><p>${g.desc}</p><span class="tag">${g.tag}</span>${r?`<span class="done">${ico('star',14).repeat(r.st)} ${LV[r.lv].k}</span>`:''}`);c.style.setProperty('--c',g.c);c.onclick=()=>{sfx('tap');startGame(g.id)};gr.append(c)})}
-$('#seg').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.mode=b.dataset.m==='ai'?'ai':+b.dataset.m;save();renderHome();sfx('tap')};
-$('#nm').oninput=e=>{S.name=e.target.value.trim();save()};
+const SCN={
+ bridge:'radial-gradient(ellipse 96px 50px at 6% 62%,#6fd08c 99%,#0000),radial-gradient(ellipse 96px 50px at 94% 62%,#6fd08c 99%,#0000),radial-gradient(circle 20px at 80% 22%,#fff 98%,#0000),radial-gradient(circle 14px at 72% 26%,#fff 98%,#0000),linear-gradient(#8a8ff0 0 60%,#4f86e6 60%)',
+ frog:'radial-gradient(circle 24px at 82% 24%,#fff6d6 98%,#0000),radial-gradient(circle 2px at 18% 20%,#fff 98%,#0000),radial-gradient(circle 2px at 36% 34%,#fff 98%,#0000),radial-gradient(circle 2px at 58% 14%,#fff 98%,#0000),radial-gradient(ellipse 44px 13px at 16% 84%,#58c777 98%,#0000),radial-gradient(ellipse 36px 11px at 84% 90%,#58c777 98%,#0000),linear-gradient(#27247a 0 62%,#2b5fb8 62%)',
+ rocket:'radial-gradient(circle 2px at 14% 22%,#fff 98%,#0000),radial-gradient(circle 2px at 30% 54%,#fff 98%,#0000),radial-gradient(circle 2px at 64% 16%,#fff 98%,#0000),radial-gradient(circle 2px at 90% 60%,#fff 98%,#0000),radial-gradient(circle 26px at 84% 28%,#ff9ad0 98%,#0000),radial-gradient(ellipse 80% 54px at 50% 112%,#7a6cd0 98%,#0000),linear-gradient(#140b40,#3b2a7a)',
+ wrace:'repeating-linear-gradient(90deg,#fff 0 22px,#0000 22px 44px) 0 80%/100% 5px no-repeat,repeating-conic-gradient(#2a1f5c 0 25%,#fff 0 50%) 0 0/22px 22px repeat-x,linear-gradient(#a9d4ff 0 48%,#7bd88f 48% 60%,#7d77c9 60%)',
+ lrace:'repeating-linear-gradient(45deg,#ffffff1c 0 16px,#0000 16px 32px),radial-gradient(circle 60px at 86% 16%,#ffffff33 98%,#0000),linear-gradient(135deg,#5a4ac8,#c9b6ff)'};
+function renderHome(){document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.m===String(S.mode)));$('#mhint').textContent=MHINT[S.mode].slice(4);
+ const a=$('#grid'),b=$('#grid2');a.innerHTML='';b.innerHTML='';
+ GAMES.forEach((g,i)=>{const r=S.res[g.id];const c=el('button','card',`<span class="scn" style="background:${SCN[g.id]}">${g.race?'<span class="rib">3 топ</span>':''}${ico(g.icon,108)}${r?`<span class="done">${ico('star',14).repeat(r.st)} ${LV[r.lv].k}</span>`:''}</span><span class="bd"><h3>${g.title}</h3><p>${g.desc}</p><span class="ft"><span class="tag">${g.tag}</span><span class="go"></span></span></span>`);
+  c.style.setProperty('--c',g.c);c.style.setProperty('--i',i);c.onclick=()=>{sfx('tap');startGame(g.id)};(g.race?b:a).append(c)})}
+$('#seg').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.mode=+b.dataset.m;save();document.querySelectorAll('#seg button').forEach(x=>x.classList.toggle('on',x===b));$('#mhint').textContent=MHINT[S.mode].slice(4);sfx('tap')};
+
 $('#back').onclick=goHome;$('#rback').onclick=goHome;$('#rend').onclick=()=>raceResults();$('#hintBtn').onclick=hint;
-$('#toRep').onclick=()=>{const played=GAMES.filter(g=>S.res[g.id]);let h=`<div class="rtop"><button class="back" id="rb">⬅</button>Саралау есебі${S.name?' · '+S.name:''}</div>`;
+($('#toRep')||{}).onclick=()=>{const played=GAMES.filter(g=>S.res[g.id]);let h=`<div class="rtop"><button class="back" id="rb">⬅</button>Саралау есебі${S.name?' · '+S.name:''}</div>`;
  if(!played.length)h+=`<div class="panel" style="text-align:center">Әлі ойын ойналған жоқ. Кез келген ойынды бастаңыз — AI деңгейді өзі анықтайды.</div>`;
  else{const avg=played.reduce((s,g)=>s+S.res[g.id].lv,0)/played.length,grp=avg<1.67?1:avg<2.34?2:3;
   h+=`<div class="panel"><table class="rep"><tr><th>Ойын</th><th>Дұрыс</th><th>Деңгей</th><th>Жол</th></tr>${played.map(g=>{const r=S.res[g.id];return`<tr><td>${ico(g.icon,24)} ${g.title}</td><td><b>${r.ok}/${r.tot}</b></td><td><span class="badge" style="background:${LV[r.lv].c}">${LV[r.lv].k}</span></td><td>${r.path.map(p=>`<span style="color:${LV[p.lv].c}">${p.ok?'●':'○'}</span>`).join('')}</td></tr>`}).join('')}</table>
   <div class="grp" style="--c:${LV[grp].c}">AI қорытындысы: оқушы — <b>${LV[grp].k} тобы (${LV[grp].name})</b>.<br>${{1:'Ұсыныс: заттармен жұмыс; 2-ні қайталап қосу → көбейту. Келесі сабақта «Көпір» A мен «Ракета жүгі» A.',2:'Ұсыныс: кері санауды және кері есепті бекіту. Келесі сабақта «Бақа» C мен «Көпір» C.',3:'Ұсыныс: логикалық, кері, екі қадамды есептер; өзі есеп құрастырсын, досына көмекші болсын.'}[grp]}</div></div>`}
  h+=`<div class="panel"><div class="lbl">Топтар туралы</div>${[1,2,3].map(l=>`<div class="grp" style="--c:${LV[l].c}"><b>${LV[l].k} · ${LV[l].name}</b> — ${MHINT[l].slice(4)}</div>`).join('')}</div><div class="btns"><button class="bigb alt" id="clr">Нәтижені тазалау (келесі оқушы)</button></div>`;
  $('#repc').innerHTML=h;show('report');$('#rb').onclick=goHome;$('#clr').onclick=()=>{S.res={};S.name='';save();goHome()}};
-$('#toInfo').onclick=()=>{$('#mbox').innerHTML=`<h2>Ойын арқылы саралау</h2>
+($('#toInfo')||{}).onclick=()=>{$('#mbox').innerHTML=`<h2>Ойын арқылы саралау</h2>
  <h4>Үш деңгей (әр ойында)</h4><ul><li><b>A · базалық</b> — көрнекі: қораптағы жемістер, 5-тен санау, 6 ракета; бір қадам.</li><li><b>B · орта</b> — тек сандармен: 2·n, 3/4/5-тен тура санау, 6–9 ракета.</li><li><b>C · жоғары</b> — кері есеп (2·? = 14), 50-ден кері санау, көп кристалды тең бөлу.</li></ul>
  <h4>AI автомат режимі</h4><ul><li>Әр оқушы A-дан бастайды. Қатарынан 2 рет бірден дұрыс → деңгей көтеріледі.</li><li>Қатарынан 2 тапсырмада қате → деңгей түседі, AI жеңілірек тапсырма береді.</li><li>«Көмек» — 3 қадам. Көмекпен табылған жауап «бірден дұрыс» болып саналмайды.</li><li>Соңында «Саралау есебі» оқушыны A, B, C тобына бөліп, келесі сабаққа ұсыныс береді.</li></ul>
  <h4>Сабақта қолдану реті</h4><ul><li>1. Ой қозғау — Бақа секірісі (3, 4, 5-тен тура және кері санау).</li><li>2. Жаңа тақырып — Көпір құрылысы (2-ге көбейту кестесі).</li><li>3. Бекіту — Ракета жүгі (6, 7, 8, 9 тең бөлікке бөлу).</li><li>4. Мәтіндік және логикалық есеп — Есеп жарысы, Логика жарысы: сынып 3 топқа бөлініп, тақтада жарысады.</li></ul>
  <h4>Тақтада</h4><ul><li>Бүкіл сыныппен ойнағанда деңгейді қолмен таңдаңыз (A/B/C).</li><li>Бір құрылғыда бірнеше оқушы: есеп бетінде «тазалау» басып, келесі оқушының атын жазыңыз.</li></ul>
  <div class="btns"><button class="bigb" id="mclose">Түсінікті</button></div>`;$('#modal').classList.add('on');$('#mclose').onclick=()=>$('#modal').classList.remove('on')};
 $('#modal').onclick=e=>{if(e.target.id==='modal')$('#modal').classList.remove('on')};
-$('#hlogo').innerHTML=ico('flask',84);document.querySelectorAll('.rbi').forEach(e=>e.innerHTML=ico('robot',20));$('#rbot').innerHTML=ico('robot',52);
+$('#hi1').innerHTML=ico('car');$('#hi2').innerHTML=ico('frog');$('#hi3').innerHTML=ico('rocket');(()=>{const C=['#8fd0ff','#c9b6ff','#7ef0c4','#ff9ad0','#ffd96a'],T=['2','×','4','=','6','?','8','÷','10','+','12','2'],P=[[4,10,74],[88,8,64],[12,44,52],[92,40,84],[3,76,66],[84,74,58],[46,90,50],[70,22,40],[26,24,44],[60,62,46],[36,58,38],[16,90,44]];$('#deco').innerHTML=P.map(([x,y,sz],i)=>`<i style="left:${x}%;top:${y}%;--s:${sz}px;--c:${C[i%5]};--r:${(i*37)%40-20}deg;--d:${5+i%4}s;animation-delay:${-i*.7}s">${T[i]}</i>`).join('')})();document.querySelectorAll('.rbi').forEach(e=>e.innerHTML=ico('robot',20));$('#rbot').innerHTML=ico('robot',52);
 renderHome();
 window.__dbg={GAMES,get cur(){return cur},get HUD(){return HUD},get RC(){return RC},startGame,next,right,hint};
 const Q=new URLSearchParams(location.search);if(Q.get('demo')){if(Q.get('lv'))S.mode=+Q.get('lv');startGame(Q.get('demo'))}
