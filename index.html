@@ -1,0 +1,785 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Көбейту зертханасы</title>
+<style>
+:root{
+  --board:#1f4a3a;--board2:#183d30;--ink:#1d2433;--paper:#fffaf0;--paper2:#f3ead6;--chalk:#f4f1e6;--chalk2:#cfe3d6;
+  --la:#4fd1a5;--lb:#5ab8ff;--lc:#a98bff;--gold:#ffd23f;--pink:#ff7eb6;--bad:#ff6b8b;--sh:#0e2a20;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{background-color:var(--board);background-image:radial-gradient(600px 300px at 20% 10%,#ffffff0d,transparent 70%),radial-gradient(500px 260px at 85% 60%,#ffffff0a,transparent 70%),radial-gradient(400px 200px at 30% 90%,#ffffff08,transparent 70%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");background-attachment:fixed;color:var(--ink);font-family:"Nunito","Segoe UI Rounded","Segoe UI",system-ui,-apple-system,Roboto,sans-serif;overflow-x:hidden}
+button{font:inherit;color:inherit;border:0;cursor:pointer}
+.scr{display:none;min-height:100%;padding:16px 16px 150px;max-width:860px;margin:0 auto;position:relative}
+.scr.on{display:block;animation:fadeUp .3s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}}
+
+/* HOME — бор тақта */
+.hero{text-align:center;padding:12px 0 4px;color:var(--chalk)}
+.logo3d{display:inline-block;animation:float 4s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-6px) rotate(-3deg)}}
+h1{margin:6px 0 4px;font-size:clamp(28px,7vw,44px);font-weight:900;color:var(--chalk);letter-spacing:.5px;line-height:1.1}
+h1 u{text-decoration:none;background:linear-gradient(transparent 62%,#ffd23f99 62% 88%,transparent 88%)}
+.hero h1{transform:rotate(-1.5deg)}
+.sub{color:var(--chalk2);font-weight:800;font-size:15px}
+.goals{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0 8px}
+.goal{background:var(--paper);color:var(--ink);border:2.5px solid var(--ink);border-radius:6px;padding:7px 11px;font-size:13px;font-weight:700;max-width:410px;box-shadow:4px 4px 0 var(--sh);text-align:left}
+.goal:nth-child(1){transform:rotate(-1deg)}.goal:nth-child(2){transform:rotate(.8deg)}
+.goal b{background:var(--gold);padding:0 4px;border-radius:3px}
+.panel{position:relative;background:var(--paper);border:3px solid var(--ink);border-radius:10px;padding:16px 14px 14px;margin:18px 0;box-shadow:6px 6px 0 var(--sh)}
+.panel:before{content:"";position:absolute;top:-11px;left:50%;width:90px;height:20px;margin-left:-45px;background:#ffd23fcc;border:1.5px solid #0002;transform:rotate(-2deg)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center}
+.lbl{font-weight:900;font-size:15px}
+.seg{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.seg button{padding:8px 12px;border-radius:8px;font-weight:900;font-size:14px;background:#fff;border:2.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);display:inline-flex;align-items:center;gap:4px}
+.seg button.on{background:var(--gold);transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.seg button[data-m="1"].on{background:var(--la)}.seg button[data-m="2"].on{background:var(--lb)}.seg button[data-m="3"].on{background:var(--lc)}
+.mhint{font-size:13px;color:#4a5068;text-align:center;margin-top:10px;min-height:18px;font-weight:700}
+input.nm{background:#fff;border:2.5px solid var(--ink);border-radius:8px;padding:9px 12px;color:var(--ink);font:inherit;font-weight:800;width:min(260px,100%)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:22px 18px;margin-top:10px;perspective:1000px}
+.card{position:relative;text-align:left;border-radius:10px;padding:16px 16px 14px;background:var(--paper);border:3px solid var(--ink);box-shadow:6px 6px 0 var(--sh);transition:transform .15s ease,box-shadow .15s;transform-style:preserve-3d}
+.card:nth-child(3n+1){transform:rotate(-1.2deg)}.card:nth-child(3n+2){transform:rotate(.9deg)}.card:nth-child(3n){transform:rotate(-.5deg)}
+.card:hover{box-shadow:9px 9px 0 var(--sh)}
+.card:active{box-shadow:2px 2px 0 var(--sh)}
+.card:after{content:"";position:absolute;top:-10px;right:22px;width:60px;height:18px;background:color-mix(in srgb,var(--c) 75%,#fff0);border:1.5px solid #0002;transform:rotate(4deg)}
+.card .ic{display:inline-grid;place-items:center;width:78px;height:78px;border-radius:50%;background:color-mix(in srgb,var(--c) 35%,#fff);border:2.5px solid var(--ink)}
+.card .ic .sv{width:58px;height:58px}
+.card h3{margin:10px 0 4px;font-size:20px;font-weight:900}
+.card p{margin:0;color:#3d4458;font-size:13.5px;line-height:1.4;font-weight:600}
+.card .tag{display:inline-block;margin-top:10px;font-size:12px;font-weight:900;padding:3px 8px;border-radius:5px;background:var(--c);border:2px solid var(--ink)}
+.card .done{position:absolute;top:14px;right:12px;font-size:13px;font-weight:900;padding:3px 7px;border-radius:6px;background:#fff;border:2px solid var(--ink);color:var(--ink)!important;display:flex;align-items:center;gap:1px}
+.btns{display:flex;gap:14px;flex-wrap:wrap;justify-content:center;margin-top:22px}
+.bigb{color:var(--ink);padding:12px 18px;border-radius:10px;font-weight:900;background:var(--gold);border:3px solid var(--ink);box-shadow:5px 5px 0 var(--ink);transition:transform .08s,box-shadow .08s}
+.bigb:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--ink)}
+.bigb.alt{background:#fff}
+
+/* PLAY BAR */
+.bar{display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:5;padding:8px 0 10px;background:var(--board)}
+.back{width:44px;height:44px;border-radius:10px;background:#fff;border:3px solid var(--ink);box-shadow:3px 3px 0 var(--ink);font-size:20px;font-weight:900;flex:none}
+.back:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.ttl{font-weight:900;font-size:19px;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--chalk);display:flex;align-items:center;gap:6px}
+.lvb{flex:none;font-weight:900;padding:5px 10px;border-radius:8px;font-size:14px;border:2.5px solid var(--ink);box-shadow:3px 3px 0 var(--ink);transform:rotate(2deg)}
+.lvb small{font-weight:800}
+.prog{display:flex;gap:6px;margin:4px 0 14px}
+.prog i{flex:1;height:10px;border-radius:2px;border:2px dashed #ffffff55}
+.prog i.ok{background:var(--la);border:2px solid var(--ink)}.prog i.hl{background:var(--gold);border:2px solid var(--ink)}.prog i.now{border:2px solid var(--chalk);animation:pulse 1s infinite}
+@keyframes pulse{50%{opacity:.4}}
+.lvb.up{animation:lvup .9s ease}
+@keyframes lvup{30%{transform:scale(1.35) rotate(-8deg)}}
+
+/* STAGE */
+#stage{min-height:300px}
+.qc{position:relative;background:var(--paper);border:3px solid var(--ink);border-radius:10px;padding:14px 54px 14px 16px;font-size:clamp(17px,4.3vw,21px);font-weight:800;line-height:1.45;box-shadow:5px 5px 0 var(--sh);background-image:repeating-linear-gradient(transparent 0 29px,#5ab8ff2e 29px 30px);transform:rotate(-.4deg)}
+.qc .spk{position:absolute;right:8px;top:8px;width:38px;height:38px;border-radius:8px;background:var(--lb);border:2.5px solid var(--ink);box-shadow:2px 2px 0 var(--ink);display:grid;place-items:center}
+.qc .spk .sv path{fill:var(--ink)}
+.qc b.nm{background:#ffd23f88;padding:0 4px;border-radius:3px}
+.qc b.nm.glow{background:var(--pink);color:#fff}
+.opts{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:20px}
+.opt{min-width:82px;padding:12px 16px;font-size:28px;font-weight:900;border-radius:10px;background:#fff;color:var(--ink);border:3px solid var(--ink);box-shadow:5px 5px 0 var(--sh);transition:transform .08s,box-shadow .08s}
+.opt:nth-child(odd){transform:rotate(-1.5deg)}.opt:nth-child(even){transform:rotate(1.5deg)}
+.opt:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--sh)}
+.opt.good{background:var(--la)}
+.bad{animation:shake .45s}
+.opt.bad{background:var(--bad);color:#fff}
+@keyframes shake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.vis{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:18px;margin:24px 0 8px;perspective:900px;min-height:130px}
+
+/* CUBE — қағаз текше */
+.cube{--s:126px;--c1:#5ab8ff;--c2:#5ab8ff;width:var(--s);height:var(--s);position:relative;transform-style:preserve-3d;transform:rotateX(-16deg) rotateY(-24deg);animation:wob 6s ease-in-out infinite}
+@keyframes wob{50%{transform:rotateX(-10deg) rotateY(18deg)}}
+.cube .fc{position:absolute;inset:0;display:grid;place-items:center;border-radius:8px;border:3px solid var(--ink);background:var(--c1);font-weight:900;color:var(--ink);backface-visibility:hidden;font-size:calc(var(--s)*.25)}
+.cube .f1{transform:translateZ(calc(var(--s)/2));background:var(--paper)}
+.cube .f2{transform:rotateY(180deg) translateZ(calc(var(--s)/2))}
+.cube .f3{transform:rotateY(90deg) translateZ(calc(var(--s)/2));filter:brightness(.82)}
+.cube .f4{transform:rotateY(-90deg) translateZ(calc(var(--s)/2));filter:brightness(.82)}
+.cube .f5{transform:rotateX(90deg) translateZ(calc(var(--s)/2));filter:brightness(1.1)}
+.cube .f6{transform:rotateX(-90deg) translateZ(calc(var(--s)/2));filter:brightness(.6)}
+.crate{--s:72px;--c1:#e9c98f;animation:none;transform:rotateX(-20deg) rotateY(-28deg)}
+.crate .fc{border-radius:4px;background-image:repeating-linear-gradient(90deg,transparent 0 22px,#0000001a 22px 24px)}
+.crate .f1{background:#f2d8a6;background-image:repeating-linear-gradient(90deg,transparent 0 22px,#0000001a 22px 24px)}
+.cw{animation:popIn .45s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes popIn{from{opacity:0;transform:scale(.3) translateY(30px)}}
+.screen3d{background:var(--board2);border:4px solid var(--ink);outline:5px solid #e9c98f;border-radius:6px;padding:18px 22px;font-size:clamp(24px,7vw,40px);font-weight:900;letter-spacing:1px;color:var(--chalk);text-align:center;transform:rotate(-1.5deg);box-shadow:8px 8px 0 var(--sh)}
+.screen3d .q{color:var(--gold)}
+.cube .q{color:#d0306f}
+.bot3d{animation:float 3s ease-in-out infinite}
+
+/* KANGAROO — бормен сызылған тақта */
+.kwrap{perspective:1000px;display:flex;justify-content:center;margin:16px 0 0}
+.kboard{position:relative;display:grid;grid-template-columns:repeat(10,minmax(0,1fr));align-items:start;gap:4px;width:min(100%,540px);transform:rotateX(30deg) scale(.93);transform-style:preserve-3d;padding:10px;border-radius:8px;background:var(--board2);border:4px solid var(--ink);outline:6px solid #e9c98f;box-shadow:0 24px 0 -6px var(--sh)}
+.kc{aspect-ratio:1;min-width:0;width:100%;border-radius:4px;display:grid;place-items:center;font-weight:900;font-size:clamp(11px,2.8vw,17px);background:transparent;color:var(--chalk);border:2px solid #ffffff55;padding:0;transition:background .2s}
+.kc:nth-child(5n+1){border-color:#ffffffaa}
+.kc.seen{background:var(--gold);color:var(--ink);border-color:var(--ink)}
+.kc.ok{background:var(--la);color:var(--ink);border-color:var(--ink)}
+.kc.no{background:var(--bad);animation:shake .4s}
+.kc.pulse{animation:glowc .8s infinite}
+@keyframes glowc{50%{background:#ffd23f88;border-color:var(--gold)}}
+.kroo{position:absolute;left:0;top:0;width:0;height:0;transform-style:preserve-3d;transition:left .38s ease,top .38s ease;pointer-events:none;z-index:3}
+.kroo span{position:absolute;left:0;bottom:0;transform:translateX(-50%) rotateX(-30deg) translateZ(4px);transform-origin:50% 100%;display:block}
+.kroo b{display:block}
+.kroo.flip b{transform:scaleX(-1)}
+.kroo.hop span{animation:hop .38s ease}
+@keyframes hop{50%{bottom:34px}}
+.kroo em{position:absolute;left:-14px;top:-5px;width:28px;height:10px;border-radius:50%;background:#0006}
+
+/* PARITY */
+.pscene{position:relative;margin:20px auto 6px;width:min(100%,520px);display:flex;flex-direction:column;align-items:center;perspective:900px}
+.pcube-h{transition:transform .6s cubic-bezier(.5,-0.4,.6,1.2),opacity .6s;animation:slideIn .8s cubic-bezier(.3,1.3,.5,1) both;z-index:2}
+@keyframes slideIn{from{transform:translateX(-160%) rotateY(-200deg);opacity:0}}
+.pcube-h.fly-l{transform:translate(-90%,190px) scale(.3);opacity:0}
+.pcube-h.fly-r{transform:translate(90%,190px) scale(.3);opacity:0}
+.belt{margin-top:-10px;height:54px;width:100%;border-radius:8px;border:3px solid var(--ink);background:repeating-linear-gradient(90deg,#3a4256 0 26px,#2a3042 26px 52px);transform:rotateX(62deg);animation:belt 1.2s linear infinite}
+@keyframes belt{to{background-position:52px 0}}
+.dots{display:grid;grid-auto-flow:column;grid-template-rows:repeat(2,16px);gap:6px 9px;justify-content:center;margin-top:16px;padding:10px 14px;border-radius:8px;background:var(--paper);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--sh)}
+.dots i{width:16px;height:16px;border-radius:50%;background:var(--lb);border:2px solid var(--ink);animation:popIn .3s both}
+.dots i.solo{background:var(--pink)}
+.gates{display:flex;gap:16px;justify-content:center;margin-top:20px}
+.gate{flex:1;max-width:230px;border-radius:12px;padding:12px 10px;display:flex;flex-direction:column;align-items:center;gap:2px;border:3px solid var(--ink);box-shadow:5px 5px 0 var(--sh);transition:transform .08s,box-shadow .08s;color:var(--ink)}
+.gate:active{transform:translate(4px,4px);box-shadow:1px 1px 0 var(--sh)}
+.g-even{background:var(--lb);transform:rotate(-1.5deg)}
+.g-odd{background:var(--pink);transform:rotate(1.5deg)}
+.gate .gi{display:flex}.gate b{font-size:26px;font-weight:900;letter-spacing:1px}.gate small{font-size:12px;font-weight:800}
+
+/* SHARE */
+.pcount{text-align:center;margin-top:16px;font-weight:900;color:var(--chalk);display:flex;align-items:center;justify-content:center;gap:6px}
+.pile{display:flex;flex-wrap:wrap;justify-content:center;gap:2px;margin:8px auto 4px;max-width:520px;min-height:32px;padding:8px;border-radius:8px;background:var(--paper);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--sh)}
+.pile span{transition:transform .25s,opacity .25s;line-height:0}
+.pile span.gone{opacity:0;transform:translateY(30px) scale(.4)}
+.plates{display:flex;flex-wrap:wrap;gap:12px 10px;justify-content:center;margin-top:18px;perspective:700px}
+.pw{display:flex;flex-direction:column;align-items:center;gap:2px}
+.plate{width:94px;min-height:62px;border-radius:50%;background:#fff;border:3px solid var(--ink);box-shadow:inset 0 0 0 7px #e8eefc,0 6px 0 var(--sh);transform:rotateX(38deg);display:flex;flex-wrap:wrap;align-content:center;justify-content:center;padding:10px 12px}
+.plate span{line-height:0;animation:drop .3s cubic-bezier(.3,1.6,.5,1) both}
+@keyframes drop{from{transform:translateY(-40px) scale(1.4);opacity:0}}
+.plate.bad{background:#ffd0da}
+
+/* DETECTIVE */
+.scheme{margin:14px 0 0;padding:12px;border-radius:8px;background:var(--board2);border:3px dashed var(--chalk2);text-align:center;animation:popIn .4s both;color:var(--chalk)}
+.scheme.hide{display:none}
+.sbars{display:flex;flex-wrap:wrap;justify-content:center;gap:5px;margin-bottom:8px}
+.sbars span{min-width:36px;padding:7px 6px;border-radius:4px;background:var(--lb);border:2.5px solid var(--ink);font-weight:900;color:var(--ink)}
+.sbars span.p{background:var(--lc)}
+.sbars span.q{background:var(--gold)}
+.sf{font-weight:900;font-size:20px;color:var(--gold)}
+.legend{font-size:13px;font-weight:700;opacity:.85}
+.ansd{margin:18px auto 10px;width:150px;height:62px;border-radius:8px;background:#fff;color:var(--ink);display:grid;place-items:center;font-size:34px;font-weight:900;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--sh)}
+.ansd.bad{background:#ffd0da}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;width:min(100%,300px);margin:0 auto}
+.pad button{height:54px;border-radius:8px;font-size:24px;font-weight:900;background:var(--paper);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--sh)}
+.pad button:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--sh)}
+.pad .ok{background:var(--la)}
+
+/* CHEST */
+.chest{position:relative;width:180px;height:132px;margin:14px auto 6px;perspective:520px}
+.ch-glow{position:absolute;left:50%;top:40px;width:10px;height:10px;border-radius:50%;transform:translate(-50%,-50%);transition:box-shadow .6s,opacity .6s;opacity:0}
+.chest.open .ch-glow{opacity:1;box-shadow:0 0 50px 40px #ffd23f99}
+.ch-body{position:absolute;bottom:0;left:0;right:0;height:84px;border-radius:6px 6px 10px 10px;background:var(--lc);border:3.5px solid var(--ink);box-shadow:6px 6px 0 var(--sh)}
+.ch-body:before,.ch-body:after{content:"";position:absolute;top:0;bottom:0;width:16px;background:var(--gold);border-left:3px solid var(--ink);border-right:3px solid var(--ink)}
+.ch-body:before{left:24px}.ch-body:after{right:24px}
+.ch-lock{position:absolute;left:50%;top:6px;transform:translateX(-50%);width:34px;height:40px;border-radius:6px;background:var(--gold);border:3px solid var(--ink);display:grid;place-items:center;z-index:2}
+.ch-lock:after{content:"";width:8px;height:12px;border-radius:4px 4px 1px 1px;background:var(--ink)}
+.ch-lid{position:absolute;top:2px;left:0;right:0;height:50px;border-radius:50px 50px 4px 4px;background:var(--lc);border:3.5px solid var(--ink);transform-origin:50% 100%;transition:transform .7s cubic-bezier(.3,1.5,.5,1);z-index:3}
+.chest.open .ch-lid{transform:rotateX(78deg) translateY(-8px)}
+.chest.open .ch-lock{opacity:0;transition:opacity .2s}
+.chest.shake{animation:shake .45s}
+.gems{position:absolute;left:0;right:0;top:20px;display:flex;justify-content:center;align-items:flex-end;gap:2px;z-index:1;opacity:0}
+.chest.open .gems{opacity:1;animation:gemUp .8s ease both .2s}
+@keyframes gemUp{from{transform:translateY(40px)}to{transform:translateY(-30px)}}
+.puz{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin:16px 0 4px}
+.tl{min-width:54px;padding:10px 8px;border-radius:8px;text-align:center;font-size:24px;font-weight:900;background:var(--paper);border:3px solid var(--ink);box-shadow:3px 3px 0 var(--sh)}
+.tl:nth-child(odd){transform:rotate(-2deg)}.tl:nth-child(even){transform:rotate(2deg)}
+.tl.q{background:var(--gold);animation:pulse 1.2s infinite}
+.bal{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:16px}
+.bal .eq{display:flex;align-items:center;gap:10px;font-size:30px;padding:6px 16px;border-radius:8px;background:var(--paper);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--sh)}
+.bal .eq b{font-size:28px;color:var(--ink)}
+.gem{min-width:76px;padding:12px 14px;font-size:24px;font-weight:900;color:var(--ink);border-radius:10px;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--sh);background:var(--g1);transition:transform .08s}
+.gem:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--sh)}
+.gem.bad{opacity:.4}
+
+/* AI BUBBLE */
+#ai{position:fixed;left:50%;bottom:0;transform:translateX(-50%);width:min(860px,100%);padding:10px 16px calc(12px + env(safe-area-inset-bottom));display:none;align-items:flex-end;gap:10px;z-index:8;background:linear-gradient(#1f4a3a00,var(--board) 35%)}
+#ai.on{display:flex}
+.bot{width:58px;height:58px;flex:none;animation:float 3s ease-in-out infinite}
+.bot .eye{animation:blink 4s infinite;transform-origin:center;transform-box:fill-box}
+@keyframes blink{0%,94%,100%{transform:scaleY(1)}97%{transform:scaleY(.1)}}
+.bub{position:relative;flex:1;min-width:0;background:#fff;color:var(--ink);border:3px solid var(--ink);border-radius:14px;padding:9px 13px;font-weight:800;font-size:15px;line-height:1.35;box-shadow:4px 4px 0 var(--sh)}
+.bub:before{content:"";position:absolute;left:-12px;bottom:12px;width:14px;height:14px;background:#fff;border-left:3px solid var(--ink);border-bottom:3px solid var(--ink);transform:rotate(45deg)}
+.bub.pop{animation:bpop .3s ease}
+@keyframes bpop{from{transform:scale(.94)}}
+.bub .who{display:flex;align-items:center;gap:4px;font-size:11px;font-weight:900;color:#5a4ac8;letter-spacing:.5px;text-transform:uppercase}
+#hintBtn{flex:none;height:52px;padding:0 12px;border-radius:10px;font-weight:900;background:var(--gold);border:3px solid var(--ink);box-shadow:4px 4px 0 var(--sh)}
+#hintBtn:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--sh)}
+
+/* END / REPORT */
+.endc{text-align:center;padding-top:16px;color:var(--chalk)}
+.endc .sub{color:var(--chalk2)}
+.stars3{margin:10px 0;display:flex;justify-content:center;gap:6px}
+.stars3 span{display:inline-block;animation:popIn .5s both}
+.stars3 span:nth-child(2){transform:translateY(-10px)}
+.stars3 .off{filter:grayscale(1) brightness(.55);opacity:.6}
+.path{display:flex;align-items:flex-end;justify-content:center;gap:10px;height:120px;margin:14px auto;padding:12px;border-radius:8px;background:var(--board2);border:3px solid var(--ink);width:min(100%,420px)}
+.path i{width:24px;border-radius:3px;border:2.5px solid var(--ink);animation:grow .5s both;position:relative}
+.path i.x:after{content:"✗";position:absolute;top:-22px;left:50%;transform:translateX(-50%);font-size:14px;color:var(--pink);font-style:normal;font-weight:900}
+@keyframes grow{from{height:0!important}}
+.endc .panel{color:var(--ink)}
+.endc .panel .legend{color:#4a5068}
+#report .bar .ttl{color:var(--chalk)}
+table.rep{width:100%;border-collapse:collapse;font-size:14px}
+.rep td,.rep th{padding:9px 6px;border-bottom:2px dashed #1d243333;text-align:left}
+.rep td .sv{vertical-align:-6px}
+.rep th{color:#5a6078;font-size:12px}
+.badge{display:inline-block;min-width:28px;text-align:center;padding:2px 8px;border-radius:5px;font-weight:900;color:var(--ink);border:2px solid var(--ink)}
+.grp{border-radius:8px;padding:10px 12px;margin-top:10px;background:#fff;border:2.5px solid var(--ink);border-left:10px solid var(--c);color:var(--ink);font-weight:600}
+.grp b{font-weight:900}
+
+/* MODAL */
+#modal{position:fixed;inset:0;background:#0b1d16cc;display:none;align-items:center;justify-content:center;z-index:20;padding:16px}
+#modal.on{display:flex}
+.mbox{background:var(--paper);border:3px solid var(--ink);border-radius:10px;padding:18px;max-width:600px;max-height:88vh;overflow:auto;box-shadow:8px 8px 0 #000a}
+.mbox h2{margin:0 0 10px;font-size:22px}
+.mbox li{margin:6px 0;line-height:1.4;font-weight:600}
+.mbox h4{margin:14px 0 4px;display:inline-block;background:var(--gold);padding:1px 6px;border-radius:3px}
+.mbox ul{padding-left:18px}
+
+.fx{position:fixed;pointer-events:none;z-index:30;line-height:0;animation:fx .8s ease-out forwards}
+@keyframes fx{to{transform:translate(var(--dx),var(--dy)) scale(.4) rotate(160deg);opacity:0}}
+.lvflash{position:fixed;inset:0;pointer-events:none;z-index:25;display:grid;place-items:center;font-size:clamp(60px,18vw,130px);font-weight:900;animation:lvf 1.2s ease forwards;-webkit-text-stroke:4px var(--ink);text-shadow:8px 8px 0 var(--ink)}
+@keyframes lvf{0%{opacity:0;transform:scale(.4) rotate(-10deg)}25%{opacity:1;transform:scale(1.1) rotate(-4deg)}70%{opacity:1}100%{opacity:0;transform:scale(1.3)}}
+
+/* SVG */
+.sv{display:inline-block;vertical-align:middle;overflow:visible;flex:none}
+.ttl .sv{margin-top:-2px}
+.crate .pr{display:flex;flex-direction:column;align-items:center;line-height:0}
+.crate .pr .sv{width:calc(var(--s)*.47);height:calc(var(--s)*.47)}
+.pile .sv{width:26px;height:26px}
+.plate .sv{width:20px;height:20px}
+.kroo .sv{width:clamp(38px,10vw,56px);height:clamp(38px,10vw,56px)}
+.bal .eq{flex-wrap:wrap;justify-content:center}
+.bal .eq .sv{width:38px;height:38px}
+#hintBtn{display:flex;align-items:center;gap:4px}
+
+@media (max-width:520px){
+  .scr{padding:10px 14px 150px}
+  .opt{min-width:68px;font-size:24px;padding:10px 12px}
+  .cube{--s:110px}
+  .crate{--s:62px}
+  .plate{width:84px}
+  #hintBtn{padding:0 9px;font-size:14px}
+  .bot{width:46px;height:46px}
+  .bub{font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01s!important;transition-duration:.01s!important}}
+
+/* «Пластилин» — жұмсақ, ойыншық сияқты */
+body.t-clay{--clay:inset -5px -6px 10px #0000002e,inset 5px 6px 10px #ffffffb0,0 10px 18px #0e063a66;background:#3b2a7a;background-image:radial-gradient(circle at 12% 18%,#4b38952e 0 80px,transparent 81px),radial-gradient(circle at 88% 70%,#4b389533 0 120px,transparent 121px)}
+.t-clay .hero,.t-clay .hero h1,.t-clay .sub{color:#fff}
+.t-clay .hero h1{transform:none;font-size:clamp(30px,8vw,46px);text-shadow:0 4px 0 #22175a}
+.t-clay h1 u{background:none;color:#ffd96a}
+.t-clay .goal,.t-clay .panel,.t-clay .card,.t-clay .qc,.t-clay .opt,.t-clay .bigb,.t-clay .seg button,.t-clay .back,.t-clay .lvb,.t-clay .bub,.t-clay #hintBtn,.t-clay input.nm,.t-clay .pad button,.t-clay .ansd,.t-clay .gate,.t-clay .tl,.t-clay .gem,.t-clay .pile,.t-clay .dots,.t-clay .bal .eq{border:0!important;box-shadow:var(--clay)!important;transform:none!important}
+.t-clay .goal{border-radius:22px;background:#f2ecff}
+.t-clay .goal b{background:#c9b8ff;border-radius:10px;padding:1px 6px}
+.t-clay .panel{border-radius:30px;background:#efe9ff}
+.t-clay .panel:before,.t-clay .card:after,.t-clay .bub:before{display:none}
+.t-clay .seg button{border-radius:18px;background:#fff}
+.t-clay .seg button.on{background:#ffd96a}
+.t-clay input.nm{border-radius:18px}
+.t-clay .card{border-radius:30px;background:color-mix(in srgb,var(--c) 45%,#fff)}
+.t-clay .card .ic{border:0;background:#ffffffaa;box-shadow:var(--clay)}
+.t-clay .card .tag{border:0;border-radius:12px;background:#ffffffaa}
+.t-clay .bigb{border-radius:22px;background:#ffd96a}
+.t-clay .bigb.alt{background:#fff}
+.t-clay .bar{background:#3b2a7a}
+.t-clay .back{border-radius:18px}
+.t-clay .ttl{color:#fff}
+.t-clay .lvb{border-radius:16px}
+.t-clay .prog i{border:0;background:#ffffff26;border-radius:10px;height:12px}
+.t-clay .prog i.ok{background:#7ef0c4;border:0}.t-clay .prog i.now{background:#fff}
+.t-clay .qc{border-radius:28px;background:#fff}
+.t-clay .qc .spk{border:0;border-radius:16px;box-shadow:var(--clay)}
+.t-clay .qc b.nm{background:#ffd96a;border-radius:8px}
+.t-clay .opt{border-radius:26px;background:#fff}
+.t-clay .cube .fc{border:0;border-radius:22px;background:#8fd0ff;box-shadow:inset -6px -6px 12px #0003,inset 6px 6px 12px #fff9}
+.t-clay .cube .f1{background:#fff}
+.t-clay .screen3d{border:0;outline:0;border-radius:28px;background:#fff;color:#3b2a7a;box-shadow:var(--clay);transform:none}
+.t-clay #ai{background:linear-gradient(#3b2a7a00,#3b2a7a 35%)}
+.t-clay .bub{border-radius:24px}
+.t-clay #hintBtn{border-radius:20px;background:#ffd96a}
+.t-clay .kboard{border:0;outline:0;border-radius:26px;background:#efe9ff;box-shadow:var(--clay)}
+.t-clay .kc{border:0;border-radius:10px;background:#fff;color:#3b2a7a;box-shadow:inset -2px -3px 4px #0002}
+.t-clay .kc.seen{background:#ffd96a}
+.t-clay .gate{border-radius:28px}
+.t-clay .pad button,.t-clay .ansd,.t-clay .tl,.t-clay .gem{border-radius:20px}
+
+.t-clay .plate{border:0;background:#fff;box-shadow:inset -4px -5px 8px #0002,inset 4px 5px 8px #fff,0 8px 12px #0e063a66;width:80px;min-height:54px}
+.t-clay .plates{gap:8px 10px}
+.t-clay .pw .kid .sv{width:30px;height:30px}
+.t-clay .ch-body,.t-clay .ch-lid,.t-clay .ch-lock{border:0;box-shadow:inset -6px -6px 12px #0003,inset 6px 6px 12px #ffffff80}
+.t-clay .ch-body{background:#b9a2ff;border-radius:22px;box-shadow:inset -6px -6px 12px #0003,inset 6px 6px 12px #ffffff80,0 12px 18px #0e063a66}
+.t-clay .ch-lid{background:#c9b6ff;border-radius:60px 60px 14px 14px}
+.t-clay .ch-body:before,.t-clay .ch-body:after{border:0;background:#ffd96a;box-shadow:inset -3px 0 4px #0002}
+.t-clay .ch-lock{background:#ffd96a;border-radius:12px}
+.t-clay .tl.q{background:#ffd96a;color:#3b2a7a;animation:qpop 1.2s ease-in-out infinite}
+@keyframes qpop{50%{scale:1.08}}
+.t-clay .belt{border:0;border-radius:16px;background:repeating-linear-gradient(90deg,#5a4aa8 0 26px,#4a3a96 26px 52px)}
+.t-clay .dots{border-radius:20px}
+.t-clay .scheme{border:3px dashed #c9b8ff;background:#2e2066;border-radius:22px}
+.t-clay .sbars span{border:0;border-radius:10px;box-shadow:inset -3px -3px 5px #0002,inset 3px 3px 5px #fff8}
+.t-clay .pcount{color:#fff}
+.t-clay .bal .eq{border-radius:22px}
+.t-clay .kroo em{background:#0003}
+</style>
+</head>
+<body class="t-clay">
+
+<section id="home" class="scr on">
+  <div class="hero">
+    <div class="logo3d" id="hlogo"></div>
+    <h1>Көбейту <u>зертханасы</u></h1>
+    <div class="sub">2-сынып · 2-ге көбейту кестесі · <span class="rbi"></span> AI-саралау</div>
+    <div class="goals">
+      <div class="goal"><b>2.1.2.4</b> — 2-ге көбейту кестесін құру, білу және қолдану</div>
+      <div class="goal"><b>2.1.1.5</b> — 50-ге дейін 3, 4, 5-тен тура және кері санау, жұп/тақ, 6–9 тең бөлікке бөлу</div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="row" style="margin-bottom:10px"><span class="lbl">Оқушы:</span><input class="nm" id="nm" placeholder="Аты (міндетті емес)" maxlength="24"></div>
+    <div class="row"><span class="lbl">Деңгей:</span>
+      <div class="seg" id="seg">
+        <button data-m="ai" class="on"><span class="rbi"></span> AI автомат</button>
+        <button data-m="1">A · базалық</button>
+        <button data-m="2">B · орта</button>
+        <button data-m="3">C · жоғары</button>
+      </div>
+    </div>
+    <div class="mhint" id="mhint"></div>
+  </div>
+  <div class="grid" id="grid"></div>
+  <div class="btns">
+    <button class="bigb" id="toRep">Саралау есебі</button>
+    <button class="bigb alt" id="toInfo">Мұғалімге</button>
+  </div>
+</section>
+
+<section id="play" class="scr">
+  <div class="bar"><button class="back" id="back" aria-label="Артқа">⬅</button><div class="ttl" id="ttl"></div><div class="lvb" id="lvb"></div></div>
+  <div class="prog" id="prog"></div>
+  <div id="stage"></div>
+</section>
+
+<section id="end" class="scr"><div class="endc" id="endc"></div></section>
+<section id="report" class="scr"><div id="repc"></div></section>
+
+<div id="ai">
+  <svg class="bot" viewBox="0 0 64 64" aria-hidden="true"><line x1="32" y1="16" x2="32" y2="7" stroke="#7fe3ff" stroke-width="3"/><circle cx="32" cy="6" r="4" fill="#ffd34d"/><rect x="6" y="28" width="7" height="13" rx="3" fill="#5ab8ff"/><rect x="51" y="28" width="7" height="13" rx="3" fill="#5ab8ff"/><rect x="11" y="15" width="42" height="36" rx="13" fill="#7fe3ff"/><rect x="17" y="23" width="30" height="18" rx="9" fill="#0d1640"/><circle class="eye" cx="26" cy="32" r="4" fill="#7fffd0"/><circle class="eye" cx="38" cy="32" r="4" fill="#7fffd0"/><path d="M26 45 q6 4 12 0" stroke="#0d1640" stroke-width="2.5" fill="none" stroke-linecap="round"/><rect x="20" y="51" width="24" height="9" rx="4" fill="#5ab8ff"/></svg>
+  <div class="bub" id="bub"></div>
+  <button id="hintBtn">💡 Көмек</button>
+</div>
+
+<div id="modal"><div class="mbox" id="mbox"></div></div>
+
+<script>
+"use strict";
+/* ---------- SVG суреттер (эмодзи орнына) ---------- */
+const GR={
+ gApple:['l',['#ff8a8a',0],['#e02a3c',.55],['#9a0f22',1]],gLeaf:['l',['#a6ec7e',0],['#2f9a45',1]],gPear:['l',['#f6fb9a',0],['#b5d13b',.55],['#7d9b1c',1]],
+ gEgg:['r',['#ffffff',0],['#f6ead2',.6],['#d9c3a0',1]],gSock:['l',['#7fdcff',0],['#2a78d6',1]],gMit:['l',['#ff9ae0',0],['#c2389a',1]],gShoe:['l',['#6ff0c0',0],['#1f9a72',1]],
+ gBall:['r',['#ffffff',0],['#e8ecff',.7],['#aab4e0',1]],gPencil:['l',['#ffe680',0],['#f0a500',1]],gCandy:['l',['#ffb0dc',0],['#e0408f',1]],gCookie:['r',['#f8d896',0],['#d99c4e',.75],['#a8682a',1]],
+ gStraw:['l',['#ff7f8f',0],['#d01f3a',1]],gCarrot:['l',['#ffbd5c',0],['#e8620a',1]],gBalloon:['l',['#9fe0ff',0],['#3a8de0',1]],gNut:['l',['#e0a970',0],['#8a5427',1]],
+ gMelon:['l',['#7fe07f',0],['#237a2f',1]],gCherry:['r',['#ff8a9a',0],['#e0233f',.6],['#8a0a20',1]],gRoo:['l',['#f0b678',0],['#b06a32',1]],gRobot:['l',['#b8f6ff',0],['#3fb4e8',1]],
+ gHat:['l',['#6a5ac8',0],['#1d1546',1]],gPlate:['r',['#ffffff',0],['#e6ebff',.6],['#a9b8f0',1]],gChest:['l',['#a08aff',0],['#4a2bc0',1]],gGold:['l',['#fff1a0',0],['#d39b00',1]],
+ gGlass:['r',['#ffffff',0],['#cdf3ff',.6],['#8fd9ff',1]],gFlask:['l',['#8dffd8',0],['#19b88a',1]],gStar:['l',['#fff6b0',0],['#ffd34d',.5],['#f0a400',1]],gGem:['l',['#d0f7ff',0],['#5ab8ff',.5],['#2a5bd8',1]],gBulb:['r',['#ffffff',0],['#fff2a0',.5],['#ffc93d',1]]
+};
+const KIDP=[['#f6d2b0','#3a2412',0,'#5ab8ff'],['#eec09a','#1d1d2e',1,'#ff8ad8'],['#d9a27a','#6b3a1a',2,'#4fd1a5'],['#f8dcc0','#c8862e',1,'#a98bff'],['#c98e66','#1d1d2e',0,'#ffd34d'],['#f2c8a4','#7a3a14',2,'#ff8a8a']];
+function kidSym([sk,hr,st,sh]){
+ const hair=st===0?`<path d="M15 29c0-13 7-18 17-18s17 5 17 18c-3-5-7-9-12-9-3 3-8 4-12 2-5 1-8 3-10 7z" fill="${hr}"/>`
+  :st===1?`<circle cx="13" cy="26" r="6.5" fill="${hr}"/><circle cx="51" cy="26" r="6.5" fill="${hr}"/><path d="M8 20l5 4-5 4zM56 20l-5 4 5 4z" fill="#ff5fa2"/><path d="M15 30c-1-13 7-19 17-19s18 6 17 19c-4-6-10-9-17-9s-13 3-17 9z" fill="${hr}"/>`
+  :`<path d="M14 31c-3-10 2-20 10-21 3-3 9-3 12 0 8 0 14 9 12 21-2-5-5-8-9-8-1 2-4 3-7 2-3 2-8 2-10 0-4 1-7 3-8 6z" fill="${hr}"/><circle cx="20" cy="15" r="5" fill="${hr}"/><circle cx="44" cy="15" r="5" fill="${hr}"/>`;
+ return `<path d="M12 64c0-12 9-18 20-18s20 6 20 18z" fill="${sh}"/><path d="M26 47l6 6 6-6" fill="#fff" opacity=".85"/><rect x="28" y="40" width="8" height="8" fill="${sk}"/>
+ <ellipse cx="16" cy="32" rx="3.5" ry="4.5" fill="${sk}"/><ellipse cx="48" cy="32" rx="3.5" ry="4.5" fill="${sk}"/><circle cx="32" cy="30" r="16" fill="${sk}"/>${hair}
+ <ellipse cx="26" cy="31" rx="2.4" ry="3" fill="#2a1d4a"/><ellipse cx="38" cy="31" rx="2.4" ry="3" fill="#2a1d4a"/><circle cx="26.8" cy="30" r=".9" fill="#fff"/><circle cx="38.8" cy="30" r=".9" fill="#fff"/>
+ <circle cx="21.5" cy="37" r="2.8" fill="#ff7f9a" opacity=".5"/><circle cx="42.5" cy="37" r="2.8" fill="#ff7f9a" opacity=".5"/><path d="M27 38q5 4.5 10 0" stroke="#8a2a3a" stroke-width="2" fill="none" stroke-linecap="round"/>`}
+const SYM={
+ apple:`<ellipse cx="32" cy="59" rx="16" ry="3" fill="#0003"/><path d="M32 19c-6-5-20-4-22 10-2 13 7 27 15 27 3 0 5-2 7-2s4 2 7 2c8 0 17-14 15-27-2-14-16-15-22-10z" fill="url(#gApple)"/><path d="M32 19c0-5 2-9 5-12" stroke="#6b3e1d" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M36 12c6-6 14-4 15-2-4 5-10 6-15 2z" fill="url(#gLeaf)"/><ellipse cx="21" cy="29" rx="4" ry="8" fill="#fff" opacity=".45" transform="rotate(20 21 29)"/><path d="M28 22c2 1 6 1 8 0" stroke="#7a0f1f" stroke-width="1.5" fill="none" opacity=".5"/>`,
+ pear:`<ellipse cx="32" cy="59" rx="14" ry="3" fill="#0003"/><path d="M32 12c-5 0-7 5-7 11 0 4-3 6-6 11-4 7-2 22 13 22s17-15 13-22c-3-5-6-7-6-11 0-6-2-11-7-11z" fill="url(#gPear)"/><path d="M32 13c0-4 1-7 3-9" stroke="#6b3e1d" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M34 9c5-4 11-3 12-1-3 4-8 4-12 1z" fill="url(#gLeaf)"/><ellipse cx="25" cy="38" rx="3.5" ry="8" fill="#fff" opacity=".4" transform="rotate(15 25 38)"/><circle cx="38" cy="44" r="1" fill="#7d6a1c"/><circle cx="34" cy="49" r="1" fill="#7d6a1c"/>`,
+ sock:`<path d="M22 6h18v28l10 6c7 4 5 16-3 16-3 0-5-1-8-3L26 45c-3-2-4-4-4-7z" fill="url(#gSock)"/><path d="M22 18h18M22 25h18" stroke="#fff" stroke-width="3.5" opacity=".85"/><path d="M41 52c3 2 7 2 8-1" stroke="#1d4f9a" stroke-width="5" fill="none" stroke-linecap="round" opacity=".45"/><rect x="20" y="4" width="22" height="9" rx="3" fill="#fff"/><path d="M24 6v5M28 6v5M32 6v5M36 6v5" stroke="#c9d6ff" stroke-width="1.5"/><path d="M26 30v8" stroke="#fff" stroke-width="2.5" opacity=".35" stroke-linecap="round"/>`,
+ mitten:`<path d="M21 31c-6-5-11 1-7 7l7 8v8h24V21c0-8-6-15-12-15S21 13 21 21z" fill="url(#gMit)"/><rect x="18" y="50" width="30" height="10" rx="3" fill="#fff"/><path d="M22 51v8M27 51v8M32 51v8M37 51v8M42 51v8" stroke="#f2c6e3" stroke-width="1.5"/><path d="M30 18l1.5 3 3 1.5-3 1.5-1.5 3-1.5-3-3-1.5 3-1.5z" fill="#fff"/><circle cx="38" cy="32" r="2.3" fill="#fff"/><circle cx="29" cy="38" r="2.3" fill="#fff"/><circle cx="39" cy="43" r="1.8" fill="#fff"/><path d="M25 13c2-3 5-4 8-4" stroke="#fff" stroke-width="2.5" fill="none" opacity=".55" stroke-linecap="round"/>`,
+ shoe:`<ellipse cx="32" cy="57" rx="27" ry="3" fill="#0003"/><path d="M6 45c0-6 2-12 4-16 4 2 9 2 12-2l6 4c6 4 14 6 22 8 6 1 9 4 9 8v2H6z" fill="url(#gShoe)"/><path d="M5 46h55v4c0 2-2 4-4 4H9c-2 0-4-2-4-4z" fill="#fff"/><path d="M5 50h55" stroke="#c9d2ff" stroke-width="2"/><path d="M24 31l-4 6M29 33l-4 6M34 35l-4 6" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/><path d="M38 40c6 2 12 2 16 1" stroke="#0e5a3e" stroke-width="2.5" fill="none" opacity=".45" stroke-linecap="round"/><circle cx="13" cy="37" r="3" fill="#fff" opacity=".85"/>`,
+ egg:`<ellipse cx="32" cy="58" rx="13" ry="3" fill="#0003"/><path d="M32 6c-11 0-19 18-19 30 0 12 8 20 19 20s19-8 19-20C51 24 43 6 32 6z" fill="url(#gEgg)"/><ellipse cx="25" cy="24" rx="4" ry="8" fill="#fff" opacity=".9" transform="rotate(20 25 24)"/><circle cx="40" cy="42" r="1.4" fill="#c9a87a" opacity=".6"/><circle cx="36" cy="47" r="1" fill="#c9a87a" opacity=".6"/>`,
+ ball:`<ellipse cx="32" cy="59" rx="16" ry="3" fill="#0003"/><circle cx="32" cy="32" r="24" fill="url(#gBall)" stroke="#3a4170" stroke-width="1.5"/><path d="M32 22l9 6.5-3.5 10.5h-11L23 28.5z" fill="#232a4a"/><path d="M32 8v14M41 28.5l13-4.5M37.5 39l8 11M26.5 39l-8 11M23 28.5l-13-4.5" stroke="#232a4a" stroke-width="2"/><path d="M27 8.6l5 3 5-3M9 26l3 8-1 7M55 26l-3 8 1 7M20 52l7-1 3 5M44 52l-7-1-3 5" fill="#232a4a" stroke="#232a4a" stroke-width="2.5" stroke-linejoin="round"/><ellipse cx="21" cy="17" rx="6" ry="3" fill="#fff" opacity=".8" transform="rotate(-35 21 17)"/>`,
+ pencil:`<g transform="rotate(-40 32 32)"><rect x="26" y="6" width="12" height="40" rx="1" fill="url(#gPencil)"/><path d="M30 10v36M34 10v36" stroke="#d68a00" stroke-width="1"/><rect x="26" y="2" width="12" height="6" rx="2.5" fill="#ff8aa3"/><rect x="25.5" y="7" width="13" height="4" fill="#c9d2ff"/><path d="M26 46h12l-6 14z" fill="#f6d2a6"/><path d="M30 55h4l-2 5z" fill="#4a3ab0"/></g>`,
+ candy:`<path d="M15 32 3 21v22zM49 32l12-11v22z" fill="url(#gCandy)"/><path d="M3 24l6 3M3 40l6-3M61 24l-6 3M61 40l-6-3" stroke="#a0205e" stroke-width="1.5" opacity=".6"/><ellipse cx="32" cy="32" rx="18" ry="14" fill="url(#gCandy)"/><path d="M22 21c4 7 4 15 0 22M32 18c4 8 4 20 0 28M42 21c4 7 4 15 0 22" stroke="#fff" stroke-width="3.5" fill="none" opacity=".8"/><ellipse cx="26" cy="24" rx="6" ry="3" fill="#fff" opacity=".55"/>`,
+ cookie:`<ellipse cx="32" cy="58" rx="20" ry="3" fill="#0003"/><circle cx="32" cy="32" r="24" fill="url(#gCookie)"/><circle cx="32" cy="32" r="23" fill="none" stroke="#9a5a22" stroke-width="2" opacity=".45" stroke-dasharray="3 4"/><path d="M21 21l5 1-1 5-5-1zM38 17l5 2-2 5-4-2zM41 35l5 1-1 6-5-2zM23 40h5v5h-5zM32 29l4 1-1 4-4-1zM47 25l3 1-1 4-3-1zM31 46l4 1-1 4-4-1z" fill="#4a2a12"/><ellipse cx="22" cy="15" rx="7" ry="3" fill="#fff" opacity=".35" transform="rotate(-30 22 15)"/>`,
+ straw:`<ellipse cx="32" cy="60" rx="12" ry="2.5" fill="#0003"/><path d="M32 58C18 50 10 37 12 27c2-8 10-10 20-8 10-2 18 0 20 8 2 10-6 23-20 31z" fill="url(#gStraw)"/><g fill="#ffe680"><ellipse cx="21" cy="29" rx="1.3" ry="2"/><ellipse cx="29" cy="27" rx="1.3" ry="2"/><ellipse cx="37" cy="27" rx="1.3" ry="2"/><ellipse cx="44" cy="30" rx="1.3" ry="2"/><ellipse cx="25" cy="37" rx="1.3" ry="2"/><ellipse cx="33" cy="36" rx="1.3" ry="2"/><ellipse cx="41" cy="38" rx="1.3" ry="2"/><ellipse cx="29" cy="45" rx="1.3" ry="2"/><ellipse cx="37" cy="46" rx="1.3" ry="2"/><ellipse cx="33" cy="52" rx="1.3" ry="2"/></g><path d="M32 21l-11-7 7 0-3-7 7 5 0-8 4 8 5-5-2 7 8-1-9 8z" fill="url(#gLeaf)"/><ellipse cx="19" cy="34" rx="2.5" ry="6" fill="#fff" opacity=".35" transform="rotate(20 19 34)"/>`,
+ carrot:`<g transform="rotate(25 32 32)"><path d="M22 18h20c0 2 0 5-1 8L33 60c-.5 2-1.5 2-2 0L23 26c-1-3-1-6-1-8z" fill="url(#gCarrot)"/><path d="M25 27h6M29 36h6M27 45h4M33 52h-3" stroke="#b34a00" stroke-width="2" stroke-linecap="round"/><path d="M31 18c-2-8-8-12-12-12 2 4 6 9 10 12zM32 18c0-8 2-13 4-15 1 5 0 10-2 15zM33 18c4-6 10-8 13-7-3 4-8 6-12 8z" fill="url(#gLeaf)"/><path d="M25 21v6" stroke="#fff" stroke-width="2" opacity=".45" stroke-linecap="round"/></g>`,
+ balloon:`<path d="M32 48c-3 5 4 8-1 15" stroke="#cfd6ff" stroke-width="1.5" fill="none"/><ellipse cx="32" cy="25" rx="17" ry="20" fill="url(#gBalloon)"/><path d="M29 44h6l-3 4z" fill="#2a6dc0"/><ellipse cx="24" cy="16" rx="4" ry="7" fill="#fff" opacity=".6" transform="rotate(25 24 16)"/><circle cx="21" cy="27" r="1.6" fill="#fff" opacity=".5"/>`,
+ nut:`<ellipse cx="32" cy="60" rx="12" ry="2.5" fill="#0003"/><path d="M18 30c0 16 6 26 14 28 8-2 14-12 14-28z" fill="url(#gNut)"/><path d="M14 30c0-10 8-16 18-16s18 6 18 16z" fill="#7a5230"/><path d="M16 27h32M19 22h26M24 18h16" stroke="#4a2c12" stroke-width="1.5" opacity=".6"/><path d="M32 14c0-4 2-7 5-8" stroke="#5a3a1e" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="25" cy="41" rx="3" ry="7" fill="#fff" opacity=".3"/>`,
+ cherry:`<path d="M29 30C29 18 35 10 44 6" stroke="#3a7a2a" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M44 6c4-2 10 0 11 3-4 3-9 2-11-3z" fill="url(#gLeaf)"/><circle cx="29" cy="43" r="15" fill="url(#gCherry)"/><ellipse cx="23" cy="37" rx="4.5" ry="3" fill="#fff" opacity=".65" transform="rotate(-30 23 37)"/>`,
+ melon:`<ellipse cx="32" cy="59" rx="22" ry="3" fill="#0003"/><ellipse cx="32" cy="34" rx="27" ry="22" fill="url(#gMelon)"/><path d="M13 18c-6 10-6 22 0 32M22 13c-4 12-4 30 0 42M32 12v44M42 13c4 12 4 30 0 42M51 18c6 10 6 22 0 32" stroke="#0f4a1a" stroke-width="3" fill="none" stroke-dasharray="6 2"/><ellipse cx="21" cy="22" rx="9" ry="4" fill="#fff" opacity=".35" transform="rotate(-30 21 22)"/><path d="M32 12c0-3 2-5 4-6" stroke="#5a3a1e" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
+ roo:`<ellipse cx="30" cy="61" rx="20" ry="2.5" fill="#0003"/><path d="M21 45C11 48 5 54 2 61c8-1 15-5 23-10z" fill="url(#gRoo)"/><path d="M22 46c-3 9 2 14 18 14l6-1c-1-3-5-4-12-5-2-3-1-6-1-9z" fill="url(#gRoo)"/><ellipse cx="30" cy="40" rx="12" ry="15" fill="url(#gRoo)" transform="rotate(-18 30 40)"/><ellipse cx="34" cy="42" rx="6" ry="9" fill="#f9dcb6" transform="rotate(-18 34 42)"/><path d="M31 45q4 3 8 0" stroke="#b06a32" stroke-width="1.6" fill="none"/><path d="M33 28c2-7 6-10 11-9l-1 11z" fill="url(#gRoo)"/><path d="M39 11l-3-10 6 8zM44 10l2-9 2 10z" fill="#c07a40"/><path d="M40 10l-2-6 3 5z" fill="#ffb3a0"/><ellipse cx="44" cy="17" rx="8" ry="7" fill="url(#gRoo)"/><ellipse cx="51" cy="20" rx="6" ry="4" fill="#f0c090"/><circle cx="56" cy="19" r="1.8" fill="#2a1d1a"/><circle cx="46" cy="15" r="2" fill="#2a1d1a"/><circle cx="46.7" cy="14.3" r=".7" fill="#fff"/><path d="M52 23q2 1 4-1" stroke="#7a3a1a" stroke-width="1.2" fill="none"/><path d="M39 33c3 2 6 3 9 2M38 37c3 2 6 3 8 3" stroke="#b06a32" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="25" cy="34" rx="3" ry="7" fill="#fff" opacity=".25" transform="rotate(-18 25 34)"/>`,
+ robot:`<line x1="32" y1="15" x2="32" y2="6" stroke="#7fe3ff" stroke-width="3"/><circle cx="32" cy="5" r="4" fill="url(#gStar)"/><rect x="5" y="27" width="7" height="14" rx="3" fill="#2a8ad8"/><rect x="52" y="27" width="7" height="14" rx="3" fill="#2a8ad8"/><rect x="10" y="14" width="44" height="37" rx="13" fill="url(#gRobot)"/><rect x="16" y="22" width="32" height="19" rx="9" fill="#0d1640"/><circle cx="25" cy="31" r="4.5" fill="#7fffd0"/><circle cx="39" cy="31" r="4.5" fill="#7fffd0"/><circle cx="26.5" cy="29.5" r="1.4" fill="#fff"/><circle cx="40.5" cy="29.5" r="1.4" fill="#fff"/><path d="M25 45q7 4 14 0" stroke="#0d1640" stroke-width="2.5" fill="none" stroke-linecap="round"/><path d="M15 19c3-3 7-4 12-4" stroke="#fff" stroke-width="2.5" fill="none" opacity=".6" stroke-linecap="round"/><rect x="19" y="51" width="26" height="10" rx="4" fill="#2a8ad8"/><circle cx="32" cy="56" r="2" fill="url(#gStar)"/>`,
+ hat:`<ellipse cx="30" cy="51" rx="25" ry="7" fill="#1d1546"/><path d="M14 49V21c0-4 7-6 16-6s16 2 16 6v28c0 3-7 5-16 5s-16-2-16-5z" fill="url(#gHat)"/><ellipse cx="30" cy="21" rx="16" ry="5" fill="#7a6ad8"/><path d="M14 39c0 3 7 5 16 5s16-2 16-5v-6c0 3-7 5-16 5s-16-2-16-5z" fill="#ff5fa2"/><path d="M19 24v20" stroke="#fff" stroke-width="2.5" opacity=".25" stroke-linecap="round"/><rect x="44" y="10" width="4" height="32" rx="2" fill="#232323" transform="rotate(32 46 26)"/><rect x="51" y="8" width="4" height="6" rx="1" fill="#fff" transform="rotate(32 46 26)"/><path d="M55 3l1.5 3.5 3.5 1.5-3.5 1.5L55 13l-1.5-3.5L50 8l3.5-1.5z" fill="url(#gStar)"/><path d="M8 14l1 2.5 2.5 1-2.5 1-1 2.5-1-2.5-2.5-1 2.5-1z" fill="#bff1ff"/>`,
+ plate:`<ellipse cx="32" cy="44" rx="29" ry="13" fill="#0003"/><ellipse cx="32" cy="40" rx="29" ry="13" fill="url(#gPlate)"/><ellipse cx="32" cy="39" rx="19" ry="8" fill="#f2f5ff" stroke="#c9d4ff" stroke-width="2"/><circle cx="25" cy="33" r="6" fill="url(#gApple)"/><circle cx="37" cy="32" r="6" fill="url(#gStraw)"/><circle cx="31" cy="37" r="6" fill="url(#gPear)"/><ellipse cx="23" cy="31" rx="1.6" ry="2.5" fill="#fff" opacity=".6"/><path d="M33 28l-2-4" stroke="#2f9a45" stroke-width="2" stroke-linecap="round"/>`,
+ detective:`<rect x="38" y="36" width="9" height="24" rx="4.5" transform="rotate(-45 42 48)" fill="#6a4ae6"/><rect x="38" y="36" width="9" height="7" rx="2" transform="rotate(-45 42 48)" fill="#3a2a8a"/><circle cx="26" cy="26" r="18" fill="url(#gGlass)" stroke="url(#gGold)" stroke-width="6"/><path d="M15 21c2-6 6-9 12-9" stroke="#fff" stroke-width="3" fill="none" opacity=".9" stroke-linecap="round"/><path d="M21 23c0-4 3-6 6-6s5 2 5 5c0 4-5 4-5 8" stroke="#2a5bd8" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="27" cy="35" r="2.2" fill="#2a5bd8"/>`,
+ chest:`<ellipse cx="32" cy="59" rx="27" ry="3" fill="#0003"/><rect x="6" y="28" width="52" height="29" rx="4" fill="url(#gChest)"/><path d="M6 30c0-14 10-20 26-20s26 6 26 20z" fill="url(#gChest)"/><path d="M6 30h52" stroke="#2a1680" stroke-width="2.5"/><path d="M14 13v44h6V11zM44 11v46h6V13z" fill="url(#gGold)"/><rect x="26.5" y="25" width="11" height="13" rx="2.5" fill="url(#gGold)" stroke="#a07a00"/><circle cx="32" cy="30" r="2" fill="#5a3a00"/><path d="M32 31v4" stroke="#5a3a00" stroke-width="2"/><path d="M10 25c2-6 6-9 12-10" stroke="#fff" stroke-width="2" opacity=".45" fill="none" stroke-linecap="round"/><path d="M50 2l1.5 4 4 1.5-4 1.5L50 13l-1.5-4L44.5 7.5l4-1.5z" fill="url(#gStar)"/>`,
+ flask:`<path d="M26 7h12v16l14 25c3 6-1 10-6 10H18c-5 0-9-4-6-10l14-25z" fill="url(#gGlass)" opacity=".85" stroke="#bfefff" stroke-width="2"/><path d="M16 40h32l5 9c2 4 0 7-4 7H15c-4 0-6-3-4-7z" fill="url(#gFlask)"/><circle cx="25" cy="47" r="3" fill="#fff" opacity=".75"/><circle cx="36" cy="50" r="2" fill="#fff" opacity=".7"/><circle cx="31" cy="34" r="2.3" fill="#6dffc9"/><circle cx="35" cy="25" r="1.6" fill="#6dffc9"/><circle cx="30" cy="16" r="1.2" fill="#6dffc9"/><rect x="23" y="3" width="18" height="6" rx="2.5" fill="#c7a8ff"/><path d="M21 34l-5 9" stroke="#fff" stroke-width="2.5" opacity=".6" stroke-linecap="round"/>`,
+ star:`<path d="M32 4l8.5 17.5 19.3 2.8-14 13.6 3.3 19.2L32 48l-17.2 9.1 3.3-19.2-14-13.6 19.3-2.8z" fill="url(#gStar)" stroke="#e08a00" stroke-width="2.5" stroke-linejoin="round"/><path d="M22 23l8-2" stroke="#fff" stroke-width="3" opacity=".75" stroke-linecap="round"/>`,
+ gem:`<path d="M14 22l10-12h16l10 12-18 32z" fill="url(#gGem)"/><path d="M14 22h36M24 10l8 12 8-12M24 22l8 32 8-32" stroke="#fff" stroke-width="1.5" opacity=".65" fill="none"/><path d="M20 20l5-6" stroke="#fff" stroke-width="2.5" opacity=".8" stroke-linecap="round"/>`,
+ bulb:`<path d="M32 5c-11 0-18 8-18 17 0 7 4 11 7 14 2 2 3 4 3 7h16c0-3 1-5 3-7 3-3 7-7 7-14 0-9-7-17-18-17z" fill="url(#gBulb)" stroke="#e0a800" stroke-width="1.5"/><path d="M28 43V30l4-4 4 4v13" stroke="#e08a00" stroke-width="1.5" fill="none"/><rect x="24" y="43" width="16" height="10" rx="3" fill="#9aa6d8"/><path d="M24 47h16M24 50h16" stroke="#6b77b0" stroke-width="1.5"/><path d="M28 57h8" stroke="#6b77b0" stroke-width="3" stroke-linecap="round"/><path d="M21 19c1-5 5-8 9-8" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+ spk:`<path d="M9 24h11l14-12v40L20 40H9z" fill="#e8ecff"/><path d="M42 23c4 5 4 13 0 18M48 17c7 9 7 21 0 30" stroke="#e8ecff" stroke-width="4" fill="none" stroke-linecap="round"/>`
+};
+KIDP.forEach((p,i)=>SYM['kid'+i]=kidSym(p));
+(function(){const gd=Object.entries(GR).map(([id,[t,...st]])=>{const s=st.map(([c,o])=>`<stop offset="${o}" stop-color="${c}"/>`).join('');return t==='l'?`<linearGradient id="${id}" x1="0" y1="0" x2=".35" y2="1">${s}</linearGradient>`:`<radialGradient id="${id}" cx=".38" cy=".35" r=".7">${s}</radialGradient>`}).join('');
+ const sy=Object.entries(SYM).map(([k,v])=>`<symbol id="i-${k}" viewBox="0 0 64 64">${v}</symbol>`).join('');
+ const d=document.createElement('div');d.style.cssText='position:absolute;width:0;height:0;overflow:hidden';d.setAttribute('aria-hidden','true');
+ d.innerHTML=`<svg width="0" height="0"><defs>${gd}</defs>${sy}</svg>`;document.body.prepend(d)})();
+function ico(n,s){const z=s==null?'':` width="${s}" height="${s}"`;return`<svg class="sv sv-${n}"${z} viewBox="0 0 64 64" aria-hidden="true"><use href="#i-${n}"/></svg>`}
+const EMO={'🍎':'apple','🍒':'cherry','🍉':'melon','⭐':'star','💡':'bulb'};
+const emo=s=>String(s).replace(/🍎|🍒|🍉|⭐|💡/g,m=>ico(EMO[m],'1.35em'));
+
+/* ---------- утилиталар ---------- */
+const $=s=>document.querySelector(s);
+const R=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const el=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+const N=x=>`<b class="nm">${x}</b>`;
+// қазақша жалғау: 5-тен, 6-дан, 10-нан / 5-ке, 6-ға
+function lk(n){n=Math.abs(n);if(n===0)return'z';if(n%100===0)return'h';const u=n%10;if(u)return'u'+u;return't'+((n/10)%10)}
+const AB={z:'ден',h:'ден',u1:'ден',u2:'ден',u3:'тен',u4:'тен',u5:'тен',u6:'дан',u7:'ден',u8:'ден',u9:'дан',t1:'нан',t2:'дан',t3:'дан',t4:'тан',t5:'ден',t6:'тан',t7:'тен',t8:'нен',t9:'нан'};
+const DA={z:'ге',h:'ге',u1:'ге',u2:'ге',u3:'ке',u4:'ке',u5:'ке',u6:'ға',u7:'ге',u8:'ге',u9:'ға',t1:'ға',t2:'ға',t3:'ға',t4:'қа',t5:'ге',t6:'қа',t7:'ке',t8:'ге',t9:'ға'};
+const ab=n=>n+'-'+AB[lk(n)], da=n=>n+'-'+DA[lk(n)];
+const LV={1:{k:'A',name:'Базалық',c:'#4fd1a5'},2:{k:'B',name:'Орта',c:'#5ab8ff'},3:{k:'C',name:'Жоғары',c:'#a98bff'}};
+const PRAISE=['Керемет! ⭐','Дұрыс! Жарайсың!','Тамаша, өте дәл!','Міне, нағыз математик!','Дұп-дұрыс!','Супер! Ойың ұшқыр!'];
+const TOTAL=8;
+
+/* ---------- дыбыс ---------- */
+let AC=null;
+function ac(){try{if(!AC)AC=new(window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume()}catch(e){}return AC}
+addEventListener('pointerdown',ac,{once:true,capture:true});
+function tone(f,d,type,v,delay){const a=ac();if(!a)return;const t=a.currentTime+(delay||0),o=a.createOscillator(),g=a.createGain();o.type=type||'sine';o.frequency.setValueAtTime(f,t);g.gain.setValueAtTime(v||.15,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(a.destination);o.start(t);o.stop(t+d)}
+function sfx(k){try{
+  if(k==='good'){tone(660,.15,'triangle',.18);tone(880,.18,'triangle',.18,.1);tone(1320,.25,'triangle',.12,.2)}
+  else if(k==='bad'){tone(220,.25,'square',.06);tone(170,.3,'square',.05,.12)}
+  else if(k==='hop'){tone(420,.12,'sine',.12)}
+  else if(k==='up'){[523,659,784,1047].forEach((f,i)=>tone(f,.22,'triangle',.15,i*.09))}
+  else if(k==='tap'){tone(900,.05,'sine',.08)}
+  else if(k==='open'){[392,523,659,784,1047].forEach((f,i)=>tone(f,.25,'sine',.12,i*.07))}
+}catch(e){}}
+function burstAt(src,emo){const r=src.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;const set=emo||[ico('star',22),ico('star',14),ico('gem',16)];for(let i=0;i<14;i++){const s=el('span','fx',pick(set));const a=Math.random()*6.28,d=60+Math.random()*90;s.style.left=x+'px';s.style.top=y+'px';s.style.setProperty('--dx',Math.cos(a)*d+'px');s.style.setProperty('--dy',Math.sin(a)*d+'px');document.body.append(s);setTimeout(()=>s.remove(),850)}}
+
+/* ---------- сөйлеу ---------- */
+function speak(html){try{const v=speechSynthesis.getVoices().find(v=>/^kk/i.test(v.lang));if(!v){say('Бұл құрылғыда қазақша дауыс жоқ — мәтінді мұғалім оқып берсін');return}const u=new SpeechSynthesisUtterance(html.replace(/<[^>]+>/g,'').replace(/·/g,' көбейту ').replace(/\?/g,' белгісіз '));u.voice=v;u.lang=v.lang;u.rate=.92;speechSynthesis.cancel();speechSynthesis.speak(u)}catch(e){}}
+function qcard(html){const q=el('div','qc',emo(html));const b=el('button','spk',ico('spk',22));b.title='Дауыстап оқу';b.onclick=()=>speak(html);q.append(b);return q}
+
+/* ---------- 3D текше ---------- */
+function cube(front,cls,side){side=side==null?'2':side;return el('div','cube '+(cls||''),`<div class="fc f1">${front}</div><div class="fc f2">${side}</div><div class="fc f3">${side}</div><div class="fc f4">${side}</div><div class="fc f5"></div><div class="fc f6"></div>`)}
+
+/* ---------- жауап нұсқалары ---------- */
+function nearOpts(ans,c){const s=new Set([ans]);for(const v of shuffle(c.slice()))if(v>=0&&v!==ans&&s.size<4)s.add(v);let g=0;while(s.size<4&&g++<50){const v=ans+R(-6,6);if(v>=0)s.add(v)}return shuffle([...s])}
+function optBtns(box,vals,ans,msg,cls){const w=el('div','opts');vals.forEach(v=>{const b=el('button',cls||'opt',v);b.onclick=()=>{if(!cur||cur.locked)return;if(String(v)===String(ans)){b.classList.add('good');right(b)}else{b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad');wrong(typeof msg==='function'?msg(v):msg)}};w.append(b)});box.append(w);return w}
+
+/* ================= ОЙЫНДАР ================= */
+const ITEMS=[{e:'apple',n:'алма'},{e:'sock',n:'шұлық'},{e:'mitten',n:'қолғап'},{e:'shoe',n:'кроссовка'},{e:'egg',n:'жұмыртқа'},{e:'pear',n:'алмұрт'},{e:'ball',n:'доп'},{e:'pencil',n:'қарындаш'}];
+const FOOD=[{e:'candy',n:'кәмпит',acc:'кәмпитті'},{e:'cookie',n:'печенье',acc:'печеньені'},{e:'straw',n:'құлпынай',acc:'құлпынайды'},{e:'apple',n:'алма',acc:'алманы'},{e:'carrot',n:'сәбіз',acc:'сәбізді'},{e:'balloon',n:'шар',acc:'шарды'},{e:'nut',n:'жаңғақ',acc:'жаңғақты'}];
+const KIDS=[0,1,2,3,4,5,1,2,0].map(i=>'kid'+i);
+const twos=n=>Array(n).fill(2).join(' + ');
+const skip=(s,n)=>Array.from({length:n},(_,i)=>s*(i+1)).join(', ');
+
+const GAMES=[
+/* 1 --- Екі-бот зауыты --- */
+{id:'eki',icon:'robot',title:'Екі-бот зауыты',c:'#5ab8ff',tag:'2.1.2.4 · 2-ге көбейту',
+ desc:'Робот қораптарды екі-екіден толтырады. Кестені заттардан бастап, кері есепке дейін меңгер.',
+ make(lv){
+  if(lv===1){const n=R(2,6),it=pick(ITEMS);return{lv,n,it,ans:2*n,q:`${N(n)} қорап. Әр қорапта ${N(2)} ${it.n}. Барлығы неше ${it.n}?`}}
+  if(lv===2){const n=R(2,10),rev=Math.random()<.4;return{lv,n,ans:2*n,expr:rev?`${n} · 2`:`2 · ${n}`,q:'Екі-бот есептеп тұр. Нәтижесі қандай?'}}
+  const t=R(0,2),n=R(3,10);
+  if(t===0)return{lv,t,n,ans:n,expr:`2 · <span class="q">?</span> = ${2*n}`,q:'Робот бір санды жасырып қойды. Жасырын санды тап!'};
+  if(t===1)return{lv,t,n,ans:n+1,expr:`2 · ${n} + 2 = 2 · <span class="q">?</span>`,q:'Теңдік дұрыс болуы үшін <b>?</b> орнында қандай сан тұр?'};
+  const b=Math.random()<.35?n:R(2,10);return{lv,t,n,b,signs:1,ans:2*n>2*b?'>':2*n<2*b?'<':'=',expr:`2 · ${n} <span class="q">○</span> ${b} · 2`,q:'Салыстыр: қай белгі қойылады?'};
+ },
+ render(t,box){
+  box.append(qcard(t.q));const v=el('div','vis');
+  if(t.lv===1){for(let i=0;i<t.n;i++){const w=el('div','cw');w.style.animationDelay=i*.09+'s';w.append(cube(`<span class="pr">${ico(t.it.e)}${ico(t.it.e)}</span>`,'crate',''));v.append(w)}}
+  else if(t.lv===2){v.append(el('div','bot3d',ico('robot',72)));v.append(cube(t.expr,''))}
+  else{v.append(el('div','bot3d',ico('robot',72)));v.append(el('div','screen3d',t.expr))}
+  box.append(v);
+  if(t.signs)optBtns(box,['<','=','>'],t.ans,'Екі жағын бөлек есептеп, сосын салыстыр.');
+  else optBtns(box,nearOpts(t.ans,[t.ans+2,t.ans-2,t.ans+1,t.ans-1,t.n+2,2*t.n+2,t.n]),t.ans,x=>t.lv===1?`${x}? Қайта санап көр: әр қорапта 2 ${t.it.n}.`:`${x} емес. 2-ден санап көр!`);
+ },
+ hint(t,s){
+  if(t.lv===1)return[`Қораптарды сана: ${t.n} қорап, әрқайсында 2 ${t.it.n}.`,`2-ні ${t.n} рет қос: ${twos(t.n)}`,`2-ден санап шық: ${skip(2,t.n-1)}, … тағы бір қадам!`][s-1];
+  if(t.lv===2)return[`2 · ${t.n} — бұл 2-ні ${t.n} рет алу деген сөз.`,`${twos(t.n)} = ?`,`2-ден санап шық: ${skip(2,t.n-1)}, …`][s-1];
+  if(t.t===0)return[`Қай санды 2-ге көбейтсек ${2*t.n} шығады?`,`${2*t.n} санын екі тең бөлікке бөл.`,`Кестені еске түсір: 2·${t.n-1} = ${2*t.n-2}, 2·${t.n} = ?…`][s-1];
+  if(t.t===1)return[`Алдымен сол жағын есепте: 2 · ${t.n} = ${2*t.n}.`,`${2*t.n} + 2 = ${2*t.n+2}.`,`Енді: 2 · ? = ${2*t.n+2}. Кестеден ізде!`][s-1];
+  return[`Екі жағын бөлек есепте.`,`2 · ${t.n} = ${2*t.n}`,`${t.b} · 2 = ${2*t.b}. Қайсысы үлкен?`][s-1];
+ }},
+
+/* 2 --- Кенгуру секірісі --- */
+{id:'kang',icon:'roo',title:'Кенгуру секірісі',c:'#4fd1a5',tag:'2.1.1.5 · 3, 4, 5-тен санау',
+ desc:'3D тақтада кенгуру 3, 4, 5-тен тура және кері секіреді. Ол қайда қонатынын болжа!',
+ make(lv){
+  const step=lv===1?pick([5,5,4,3]):pick([3,4,5]);let dir=1,start;
+  if(lv===1)start=0;else if(lv===2)start=step*R(1,4);else{dir=-1;start=R(36,50)}
+  const shown=[],need=[];const sc=3,nc=lv===1?1:2;
+  for(let i=0;i<sc+nc;i++){const v=start+dir*step*i;(i<sc?shown:need).push(v)}
+  return{lv,step,dir,shown,need,k:0,cur:start,
+   q:`Кенгуру ${ab(step)} ${dir>0?'алға':'<b>кері</b>'} секіреді: ${shown.join(', ')}, … Келесі ${nc===1?'санды':'<b>екі</b> санды'} тақтадан бас!`}
+ },
+ render(t,box){
+  box.append(qcard(t.q));
+  const w=el('div','kwrap'),b=el('div','kboard');w.append(b);box.append(w);
+  const cells=[];for(let i=0;i<=50;i++){const c=el('button','kc',i);c.dataset.v=i;b.append(c);cells.push(c)}
+  const roo=el('div','kroo'+(t.dir<0?' flip':''),'<em></em><span><b>'+ico('roo')+'</b></span>');b.append(roo);
+  const place=v=>{const c=cells[v];roo.style.left=(c.offsetLeft+c.offsetWidth/2)+'px';roo.style.top=(c.offsetTop+c.offsetHeight/2)+'px'};
+  const hop=v=>{roo.classList.remove('hop');void roo.offsetWidth;roo.classList.add('hop');place(v);cells[v].classList.add('seen');t.cur=v;sfx('hop')};
+  t.cells=cells;t.place=place;
+  requestAnimationFrame(()=>{roo.style.transition='none';place(t.shown[0]);cells[t.shown[0]].classList.add('seen');void roo.offsetWidth;roo.style.transition='';
+   let i=1;const nx=()=>{if(cur.task!==t)return;if(i>=t.shown.length){t.ready=1;return}hop(t.shown[i++]);setTimeout(nx,460)};setTimeout(nx,450)});
+  b.onclick=e=>{const c=e.target.closest('.kc');if(!c||!t.ready||cur.locked)return;const v=+c.dataset.v,want=t.need[t.k];
+   if(v===want){cells.forEach(x=>x.classList.remove('pulse'));hop(v);c.classList.add('ok');t.k++;if(t.k>=t.need.length)setTimeout(()=>right(c),380);else{say(`Дұрыс! Тағы бір секіріс — келесі сан?`);sfx('tap')}}
+   else{c.classList.remove('no');void c.offsetWidth;c.classList.add('no');setTimeout(()=>c.classList.remove('no'),500);wrong(`${v} емес. Кенгуру әр жолы ${t.step} шаршы секіреді. Қазір ол ${t.cur} санында.`)}};
+ },
+ resize(t){if(t.place)t.place(t.cur)},
+ hint(t,s){const nx=t.need[t.k];
+  if(s===3&&t.cells)t.cells[nx].classList.add('pulse');
+  return[`Әр секіріс — ${t.step}. Кенгуру қазір ${t.cur} санында.`,`${t.cur} ${t.dir>0?'+':'−'} ${t.step} = ?`,`Жыпылықтаған шаршыға қара!`][s-1]}},
+
+/* 3 --- Жұп-тақ сиқыры --- */
+{id:'par',icon:'hat',title:'Жұп-тақ қақпасы',c:'#a98bff',tag:'2.1.1.5 · жұп / тақ',
+ desc:'Конвейердегі 3D текшені дұрыс қақпаға жібер. C деңгейде — алдымен есептеп, сосын шеш!',
+ make(lv){
+  if(lv===1){const n=R(3,20);return{lv,n,r:n,label:String(n),ans:n%2?'odd':'even',q:'Нүктелерді қос-қостан қара. Бұл сан <b>жұп</b> па, <b>тақ</b> па?'}}
+  if(lv===2){const n=R(21,50);return{lv,n,r:n,label:String(n),ans:n%2?'odd':'even',q:'Бұл сан жұп па, тақ па? Дұрыс қақпаны бас!'}}
+  const t=R(0,2);let a,b,r,label;
+  if(t===0){a=R(3,25);b=R(2,24);r=a+b;label=`${a}+${b}`}
+  else if(t===1){a=R(2,10);r=2*a;label=`2·${a}`;if(Math.random()<.5){b=R(1,5)*2+1;r+=b;label=`2·${a}+${b}`}}
+  else{a=R(20,50);b=R(3,19);r=a-b;label=`${a}−${b}`}
+  return{lv,t,r,label,ans:r%2?'odd':'even',q:'Нәтижесі жұп па, тақ па? Ойлан да, қақпаға жібер!'}
+ },
+ render(t,box){
+  box.append(qcard(t.q));
+  const sc=el('div','pscene'),h=el('div','pcube-h'),fs=t.label.length>4?'.17':'.3';
+  const c=cube(t.label,'',t.lv===3?'?':'');c.style.setProperty('--c1','#c7a8ff');c.style.setProperty('--c2','#6a4ae6');c.querySelector('.f1').style.fontSize=`calc(var(--s)*${fs})`;
+  h.append(c);sc.append(h,el('div','belt'));
+  if(t.lv===1){const d=el('div','dots');for(let i=0;i<t.n;i++){const x=el('i',(t.n%2&&i===t.n-1)?'solo':'');x.style.animationDelay=(.4+i*.04)+'s';d.append(x)}sc.append(d)}
+  box.append(sc);
+  const g=el('div','gates');
+  [['even','ЖҰП',ico('kid1',40)+ico('kid0',40),'қос-қостан, артығы жоқ'],['odd','ТАҚ',ico('kid2',40),'біреуі жалғыз қалады']].forEach(([v,n,ic,s])=>{
+   const b=el('button','gate g-'+v,`<span class="gi">${ic}</span><b>${n}</b><small>${s}</small>`);
+   b.onclick=()=>{if(cur.locked)return;if(v===t.ans){h.classList.add(v==='even'?'fly-l':'fly-r');right(b)}else{b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad');wrong(t.lv===3?'Алдымен есепте, сосын соңғы цифрына қара.':'Ойлан: 2-ге қалдықсыз бөліне ме?')}};g.append(b)});
+  box.append(g);
+ },
+ hint(t,s){
+  if(t.lv===1)return[`Нүктелерді екі-екіден топта.`,`Жұпсыз жалғыз нүкте қалды ма? Қалса — тақ.`,`${t.n} = ${Math.floor(t.n/2)} жұп${t.n%2?' және 1 жалғыз':', жалғыз жоқ'}.`][s-1];
+  if(t.lv===2)return[`Тек соңғы цифрына қара: ${t.n%10}.`,`0, 2, 4, 6, 8 — жұп; 1, 3, 5, 7, 9 — тақ.`,`${t.n%10} — ${t.n%2?'тақ':'жұп'} цифр. Демек…`][s-1];
+  return[`Алдымен есепте: ${t.label} = ?`,`${t.label} = ${t.r}`,`${t.r} санының соңғы цифры — ${t.r%10}.`][s-1];
+ }},
+
+/* 4 --- Тең бөліс --- */
+{id:'share',icon:'plate',title:'Тең бөліс',c:'#ffd34d',tag:'2.1.1.5 · 6, 7, 8, 9 тең бөлік',
+ desc:'Тәттілерді 6–9 табаққа тең бөл. Сан таңда — ойын өзі таратып, қате болса көрсетеді.',
+ make(lv){
+  const it=pick(FOOD);let k,m;if(lv===1){k=6;m=R(1,3)}else if(lv===2){k=R(6,9);m=R(2,4)}else{k=R(6,9);m=R(3,5)}
+  const tot=k*m;return{lv,it,k,m,tot,ans:m,word:lv===3,
+   q:lv===3?`${N(tot)} ${it.acc} ${N(k)} досқа тең бөлді. Әр балаға нешеден тиді?`:`${N(tot)} ${it.acc} ${N(k)} табаққа тең бөл. Әр табаққа нешеден салу керек?`}
+ },
+ render(t,box){
+  box.append(qcard(t.q));
+  box.append(el('div','pcount',`Барлығы: <b>${t.tot}</b> ${ico(t.it.e,26)}`));
+  const pile=el('div','pile');for(let i=0;i<t.tot;i++)pile.append(el('span','',ico(t.it.e)));box.append(pile);
+  const pl=el('div','plates'),plates=[];
+  for(let i=0;i<t.k;i++){const w=el('div','pw');if(t.word)w.append(el('div','kid',ico(KIDS[i],34)));const p=el('div','plate');w.append(p);pl.append(w);plates.push(p)}
+  box.append(pl);
+  const reset=()=>{plates.forEach(p=>{p.innerHTML='';p.classList.remove('bad')});[...pile.children].forEach(s=>s.classList.remove('gone'));t.busy=0};
+  const w=el('div','opts');
+  for(let x=1;x<=6;x++){const b=el('button','opt',x);b.onclick=()=>{if(cur.locked||t.busy)return;t.busy=1;reset();t.busy=1;deal(x,b)};w.append(b)}
+  box.append(w);
+  const deal=(x,b)=>{const items=[...pile.children],total=Math.min(x*t.k,t.tot),stp=Math.max(28,Math.min(90,1500/total));let i=0;
+   const go=()=>{if(cur.task!==t)return;if(i<total){items[i].classList.add('gone');plates[i%t.k].append(el('span','',ico(t.it.e)));if(i%t.k===0)sfx('tap');i++;setTimeout(go,stp);return}
+    if(x*t.k===t.tot){b.classList.add('good');right(b,1500)}
+    else{b.classList.remove('bad');void b.offsetWidth;b.classList.add('bad');
+     if(x*t.k<t.tot)wrong(`${t.tot-x*t.k} ${t.it.n} артылып қалды! Әр табаққа көбірек сал.`);
+     else{plates.forEach(p=>{if(p.children.length<x)p.classList.add('bad')});wrong(`${t.it.n} жетпей қалды — кейбір табақ толмады. Азырақ сал.`)}
+     setTimeout(reset,1600)}};
+   go()};
+ },
+ hint(t,s){return[`Бір айналымда әр табаққа бір-бірден салсаң — ${t.k} ${t.it.n} кетеді.`,`${ab(t.k)} санап көр: ${t.k}, ${2*t.k}, … ${da(t.tot)} дейін.`,`Неше рет санадың? Әр табаққа сонша ${t.it.n} келеді.`][s-1]}},
+
+/* 5 --- Ақыл-детектив --- */
+{id:'det',icon:'detective',title:'Ақыл-детектив',c:'#ff8ad8',tag:'Мәтіндік есептер · AI-көмекші',
+ desc:'Мәтіндік есептер. AI-көмекші 3 қадаммен жетелейді: не белгілі → не сұралады → схема.',
+ make(lv){
+  const B=(a,cls)=>`<div class="sbars">${a.map(x=>`<span class="${cls&&cls(x)||''}">${x}</span>`).join('')}</div>`;
+  const T={
+   1:[()=>{const n=R(2,9);return{text:`${N(n)} велосипед тұр. Әр велосипедте ${N(2)} дөңгелек бар. Барлығы неше дөңгелек?`,ans:2*n,know:`${n} велосипед, әрқайсында 2 дөңгелек.`,ask:'Барлық дөңгелек саны.',sch:B(Array(n).fill(2)),f:`2 · ${n} = ?`}},
+      ()=>{const n=R(2,9);return{text:`Ағашта ${N(n)} қарлығаш отыр. Әр қарлығаштың ${N(2)} қанаты бар. Барлығы неше қанат?`,ans:2*n,know:`${n} құс, әрқайсында 2 қанат.`,ask:'Барлық қанат саны.',sch:B(Array(n).fill(2)),f:`2 · ${n} = ?`}},
+      ()=>{const k=R(2,5);return{text:`Кенгуру бір секіргенде ${N(5)} метр жүреді. Ол ${N(k)} рет секірді. Барлығы неше метр жүрді?`,ans:5*k,know:`1 секіріс — 5 метр, ${k} секіріс.`,ask:'Барлық жол ұзындығы.',sch:B(Array(k).fill(5)),f:`5-тен ${k} рет санау: 5, 10, …`}}],
+   2:[()=>{const n=R(2,7),m=R(1,5);return{text:`Себетте ${N(n)} жұп қолғап бар. Тағы ${N(m)} қолғап салды. Себетте барлығы неше қолғап?`,ans:2*n+m,know:`${n} жұп (әр жұпта 2) және тағы ${m} қолғап.`,ask:'Барлық қолғап саны.',sch:B([...Array(n).fill(2),m],x=>0)+'',f:`2 · ${n} + ${m} = ?`}},
+      ()=>{const n=R(3,10);return{text:`Апам ${N(2*n)} шұлықты жұп-жұбымен жинады. Неше жұп шұлық шықты?`,ans:n,know:`Барлығы ${2*n} шұлық, 1 жұпта 2 шұлық.`,ask:'Жұптар саны.',sch:B(Array(n).fill('2'))+`<div class="legend">${2*n} = 2 + 2 + … неше екі?</div>`,f:`2 · ? = ${2*n}`}},
+      ()=>{const k=R(6,9),m=R(2,4);return{text:`${N(k*m)} алманы ${N(k)} балаға тең бөлді. Әр балаға нешеден алма тиді?`,ans:m,know:`${k*m} алма, ${k} бала, тең бөлінді.`,ask:'Бір балаға тиген алма саны.',sch:B(Array(k).fill('?'),()=>'q'),f:`${ab(k)} санау: ${k}, ${2*k}, … ${da(k*m)} дейін неше қадам?`}},
+      ()=>{const n=R(3,10);return{text:`Асқар мен Әлиде барлығы ${N(2*n)} асық. Екеуінде тең. Асқарда неше асық бар?`,ans:n,know:`Барлығы ${2*n}, екеуінде тең.`,ask:'Асқардың асығы.',sch:B(['?','?'],()=>'q')+`<div class="legend">? + ? = ${2*n}</div>`,f:`2 · ? = ${2*n}`}}],
+   3:[()=>{const m=R(3,9),r=R(1,6);return{text:`Әжесі ${N(2)} немересіне ${N(ab(m))} бауырсақ берді. Табақта тағы ${N(r)} бауырсақ қалды. Басында неше бауырсақ болған?`,ans:2*m+r,know:`2 немере, әрқайсына ${m}, тағы ${r} қалды.`,ask:'Басындағы бауырсақ саны.',sch:B([m,m]),f:`2 · ${m} + ${r} = ?`}},
+      ()=>{const st=pick([5,4,3]),start=st===5?pick([50,45]):st===4?pick([48,40]):pick([45,48,39]),pos=R(3,5),ans=start-st*(pos-1);return{text:`Сабина ${N(ab(start))} бастап ${N(ab(st))} кері санады: ${start}, ${start-st}, … Ол айтқан ${N(pos+'-ші')} сан қандай?`,ans,know:`${start}-ден бастады, әр қадамда ${st} азаяды.`,ask:`${pos}-ші сан.`,sch:B(Array.from({length:pos},(_,i)=>i===pos-1?'?':start-st*i),x=>x==='?'?'q':''),f:`${start} − ${st} − ${st} …`}},
+      ()=>{const c=R(3,8);return{text:`Аулада ${N(c)} тауық және ${N(1)} ит жүр. Олардың барлығы неше аяғы бар?`,ans:2*c+4,know:`Тауықта 2 аяқ, итте 4 аяқ.`,ask:'Барлық аяқ саны.',sch:B([...Array(c).fill(2),4],x=>x===4?'p':''),f:`2 · ${c} + 4 = ?`}},
+      ()=>{const n=R(4,10),g=R(1,3);return{text:`Сыныпта ${N(2*n)} оқушы қос-қостан тұрды. Сосын ${N(g)} жұп кетті. Неше жұп қалды?`,ans:n-g,know:`${2*n} оқушы, 1 жұпта 2 оқушы, ${g} жұп кетті.`,ask:'Қалған жұп саны.',sch:B(Array(n).fill(2),x=>'')+`<div class="legend">Алдымен: неше жұп болды?</div>`,f:`2 · ? = ${2*n}, сосын ? − ${g}`}}]};
+  const o=pick(T[lv])();o.lv=lv;return o;
+ },
+ render(t,box){
+  t.q=qcard(t.text);box.append(t.q);
+  const sch=el('div','scheme hide',t.sch+`<div class="sf">${t.f}</div>`);box.append(sch);t.schEl=sch;
+  const d=el('div','ansd','?');box.append(d);let val='';
+  const upd=()=>{d.textContent=val||'?';d.classList.remove('bad')};
+  const pad=el('div','pad');
+  ['1','2','3','4','5','6','7','8','9','⌫','0','✓'].forEach(k=>{const b=el('button',k==='✓'?'ok':'',k);
+   b.onclick=()=>{if(cur.locked)return;sfx('tap');
+    if(k==='⌫')val=val.slice(0,-1);else if(k==='✓'){if(!val)return;if(+val===t.ans){right(d);return}d.classList.add('bad');void d.offsetWidth;d.classList.add('bad');wrong(`${val} — дұрыс емес. «Көмек» батырмасын басып, қадаммен шешейік.`);val='';setTimeout(upd,700);return}
+    else if(val.length<2)val+=k;upd()};pad.append(b)});
+  box.append(pad);
+ },
+ hint(t,s){if(s===1)t.q.querySelectorAll('.nm').forEach(x=>x.classList.add('glow'));if(s===3)t.schEl.classList.remove('hide');
+  return[`Не белгілі? ${t.know}`,`Не сұралады? ${t.ask}`,`Схемаға қара: ${t.f}`][s-1]}},
+
+/* 6 --- Логикалық сандық --- */
+{id:'chest',icon:'chest',title:'Логикалық сандық',c:'#7fffd0',tag:'Логика · заңдылық',
+ desc:'Сиқырлы сандықты аш: сандар тізбегі, таразы, артық санды тап. Әр шешім — бір асыл тас!',
+ make(lv){
+  const seq=(st,step,len,dir)=>Array.from({length:len},(_,i)=>st+dir*step*i);
+  const types=lv===1?['seq','odd']:lv===2?['seq','bal']:['seq','bal2','five'];const ty=pick(types);
+  if(ty==='seq'){let step,dir=1,st;
+   if(lv===1){step=2;st=2*R(1,4)}else if(lv===2){step=pick([3,4,5]);st=step*R(1,3)}else{step=pick([3,4,5]);dir=-1;st=R(38,50)}
+   const a=seq(st,step,5,dir),mi=R(1,3);return{lv,ty,a,mi,step,dir,ans:a[mi],q:'Сандар заңдылықпен тұр. Жасырын санды тап — сандық ашылады!'}}
+  if(ty==='odd'){const ev=shuffle(Array.from({length:10},(_,i)=>2*(i+1))).slice(0,4),od=2*R(1,9)+1,a=shuffle([...ev,od]);return{lv,ty,a,ans:od,q:'Бір сан артық. Қайсысы? (Ойла: бәрі қандай сандар?)'}}
+  if(ty==='bal'){const n=R(2,6);return{lv,ty,n,ans:2*n,q:`Таразы: ${N(1)} 🍎 = ${N(2)} 🍒. Сонда ${N(n)} 🍎 = неше 🍒?`}}
+  if(ty==='bal2'){const n=R(1,3);return{lv,ty,n,ans:4*n,q:`🍉 = 🍎🍎, ал 🍎 = 🍒🍒. Сонда ${n===1?'':N(n)+' '}🍉 = неше 🍒?`}}
+  const good=shuffle([5,10,15,20,25,30,35,40,45,50]).slice(0,3),bad=pick([12,22,33,42,18,27,44,36]);return{lv,ty,a:shuffle([...good,bad]),ans:bad,q:'5-тен санағанда қай сан <b>кездеспейді</b>?'};
+ },
+ render(t,box){
+  const ch=el('div','chest','<div class="ch-glow"></div><div class="gems">'+ico('gem',30)+ico('gem',38)+ico('gem',30)+'</div><div class="ch-lid"></div><div class="ch-body"><div class="ch-lock"></div></div>');box.append(ch);t.ch=ch;
+  box.append(qcard(t.q));
+  if(t.ty==='seq'){const p=el('div','puz');t.a.forEach((v,i)=>p.append(el('div','tl'+(i===t.mi?' q':''),i===t.mi?'?':v)));box.append(p)}
+  else if(t.ty==='odd'||t.ty==='five'){}
+  else if(t.ty==='bal'){const b=el('div','bal',emo(`<div class="eq">🍎 <b>=</b> 🍒🍒</div><div class="eq">${'🍎'.repeat(t.n)} <b>=</b></div>`));box.append(b)}
+  else{const b=el('div','bal',emo(`<div class="eq">🍉 <b>=</b> 🍎🍎</div><div class="eq">🍎 <b>=</b> 🍒🍒</div><div class="eq">${'🍉'.repeat(t.n)} <b>=</b></div>`));box.append(b)}
+  const vals=(t.ty==='odd'||t.ty==='five')?t.a:nearOpts(t.ans,[t.ans+1,t.ans-1,t.ans+2,t.ans-2,t.ans+t.step||0,t.n*3||0].filter(Boolean));
+  const G=[['#5ab8ff'],['#a98bff'],['#4fd1a5'],['#ff7eb6'],['#ffd23f']];
+  const w=el('div','opts');vals.forEach((v,i)=>{const b=el('button','gem',v);b.style.setProperty('--g1',G[i%5][0]);
+   b.onclick=()=>{if(cur.locked)return;if(v===t.ans){ch.classList.add('open');sfx('open');right(b,1700)}else{b.classList.add('bad');ch.classList.remove('shake');void ch.offsetWidth;ch.classList.add('shake');wrong('Сандық ашылмады Заңдылықты тағы бір қара.')}};w.append(b)});
+  box.append(w);
+ },
+ hint(t,s){
+  if(t.ty==='seq'){const i=t.mi>0?t.mi-1:0,a=t.a[0],b=t.a[1];
+   return[`Көрші екі санды салыстыр: ${a} → ${b}.`,`Әр қадам сайын сан ${da(t.step)} ${t.dir>0?'артады':'кемиді'}.`,`${t.a[t.mi-1]} ${t.dir>0?'+':'−'} ${t.step} = ?`][s-1]}
+  if(t.ty==='odd')return[`Әр санның соңғы цифрына қара.`,`Төрт сан — жұп. Біреуі ғана…`,`Тақ санды ізде: соңы 1, 3, 5, 7, 9.`][s-1];
+  if(t.ty==='five')return[`5-тен санап көр: 5, 10, 15, 20, …`,`5-тен санағанда сан тек 0 немесе 5 цифрымен аяқталады.`,`Соңы 0 да, 5 те емес санды тап.`][s-1];
+  if(t.ty==='bal')return[`1 алма = 2 шие.`,`${t.n} алма — бұл ${t.n} рет 2 шие: ${twos(t.n)}.`,`2 · ${t.n} = ?`][s-1];
+  return[`Алдымен 🍉-ды алмамен ауыстыр: 🍉 = 🍎🍎.`,`Әр 🍎 = 🍒🍒, демек 🍎🍎 = 🍒🍒🍒🍒.`,`1 🍉 = 4 🍒. ${t.n>1?t.n+' қарбыз — '+t.n+' рет 4.':''}`][s-1];
+ }}
+];
+
+/* ================= ҚОЗҒАЛТҚЫШ ================= */
+const S={mode:'ai',name:'',res:{}};
+try{const d=JSON.parse(localStorage.getItem('nu_kob2')||'{}');if(d.res)S.res=d.res;if(d.name)S.name=d.name;if(d.mode)S.mode=d.mode}catch(e){}
+const save=()=>{try{localStorage.setItem('nu_kob2',JSON.stringify(S))}catch(e){}};
+let cur=null;
+const MHINT={ai:'AI оқушыны бақылайды: қатарынан 2 дұрыс — деңгей көтеріледі, 2 қате — түсіп, көмектеседі.','1':'A — көрнекі: заттар, нүктелер, табақтар. Әлсіз оқушыға немесе жаңа тақырыпқа.','2':'B — сандармен есептеу, тура және кері санау. Орта топқа.','3':'C — кері есеп, логика, екі қадамды есептер. Күшті оқушыға.'};
+
+function show(id){document.querySelectorAll('.scr').forEach(s=>s.classList.toggle('on',s.id===id));$('#ai').classList.toggle('on',id==='play');scrollTo(0,0)}
+function say(t){const b=$('#bub');b.innerHTML='<span class="who">'+ico('robot',14)+' АҚЫЛ · AI-көмекші</span>'+emo(t);b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')}
+function setBar(){const L=LV[cur.lv];const lb=$('#lvb');lb.style.background=L.c;lb.innerHTML=`${L.k} <small>${L.name}</small>`;
+ $('#prog').innerHTML=Array.from({length:TOTAL},(_,i)=>{const p=cur.path[i];return`<i class="${p?(p.ok?'ok':'hl'):i===cur.n?'now':''}"></i>`}).join('')}
+function lvFx(){const L=LV[cur.lv];const f=el('div','lvflash',`${L.k}`);f.style.color=L.c;document.body.append(f);setTimeout(()=>f.remove(),1250);sfx('up');const lb=$('#lvb');lb.classList.remove('up');void lb.offsetWidth;lb.classList.add('up')}
+
+function startGame(id){const g=GAMES.find(x=>x.id===id);const prev=S.res[id];
+ cur={g,lv:S.mode==='ai'?(prev?Math.max(1,prev.lv):1):+S.mode,n:0,ok:0,streak:0,bad:0,path:[]};
+ $('#ttl').innerHTML=ico(g.icon,30)+' '+g.title;show('play');next();
+ say(S.mode==='ai'?`Сәлем${S.name?', '+S.name:''}! Мен — Ақыл. Деңгейіңді өзім таңдаймын: қазір <b>${LV[cur.lv].k}</b>. Қиналсаң — «Көмек» бас!`:`Деңгей: <b>${LV[cur.lv].k} · ${LV[cur.lv].name}</b>. Қиналсаң — «💡 Көмек» бас.`)}
+function next(){if(cur.n>=TOTAL)return finish();cur.first=true;cur.hint=0;cur.locked=false;const st=$('#stage');st.innerHTML='';
+ cur.task=cur.g.make(cur.lv);cur.g.render(cur.task,st);setBar();$('#hintBtn').innerHTML=ico('bulb',24)+' Көмек'}
+function right(src,delay){if(!cur||cur.locked)return;cur.locked=true;sfx('good');if(src)burstAt(src);
+ const first=cur.first;cur.path.push({lv:cur.lv,ok:first});cur.n++;
+ let msg=pick(PRAISE);
+ if(first){cur.ok++;cur.streak++;cur.bad=0}else{cur.streak=0;msg='Дұрыс! Көмекпен таптың — келесіде өзің табасың'}
+ if(S.mode==='ai'&&first&&cur.streak>=2&&cur.lv<3&&cur.n<TOTAL){cur.lv++;cur.streak=0;msg=`Қатарынан дұрыс! Деңгей көтерілді: <b>${LV[cur.lv].k} · ${LV[cur.lv].name}</b>`;setTimeout(lvFx,300)}
+ say(msg);setBar();setTimeout(next,delay||1200)}
+function wrong(msg){if(!cur||cur.locked)return;sfx('bad');try{navigator.vibrate&&navigator.vibrate(60)}catch(e){}
+ let pre='';
+ if(cur.first){cur.first=false;cur.bad++;cur.streak=0;
+  if(S.mode==='ai'&&cur.bad>=2&&cur.lv>1){cur.lv--;cur.bad=0;pre=`Ештеңе етпейді! Келесі тапсырма жеңілірек болады (деңгей <b>${LV[cur.lv].k}</b>). `}}
+ say(pre+msg)}
+function hint(){if(!cur||cur.locked)return;cur.hint=Math.min(cur.hint+1,3);if(cur.first){cur.first=false;cur.streak=0}
+ say('💡 '+cur.g.hint(cur.task,cur.hint));$('#hintBtn').innerHTML=ico('bulb',24)+(cur.hint<3?` ${cur.hint+1}/3`:' 3/3')}
+function finish(){const {g,ok,path,lv}=cur;const st=ok>=7?3:ok>=5?2:1;
+ S.res[g.id]={lv,ok,tot:TOTAL,path,st,at:Date.now()};save();
+ const L=LV[lv];
+ const cm={1:'Көрнекі заттармен жақсы жұмыс істейді. Келесі қадам — сандармен есептеу (B).',2:'Сандармен сенімді есептейді. Келесі қадам — кері есеп пен логика (C).',3:'Жоғары деңгей! Логикалық, кері есептерді шешеді. Енді өзі есеп құрастырып, досына берсін.'}[lv];
+ $('#endc').innerHTML=`<div class="logo3d">${ico(g.icon,96)}</div><h1>${g.title}</h1>
+  <div class="stars3">${[1,2,3].map(i=>`<span class="${i<=st?'':'off'}" style="animation-delay:${i*.15}s">${ico('star',58)}</span>`).join('')}</div>
+  <div class="sub">Бірден дұрыс: <b style="color:#fff">${ok} / ${TOTAL}</b> · Соңғы деңгей: <span class="badge" style="background:${L.c}">${L.k}</span></div>
+  <div class="panel" style="text-align:center"><div class="lbl">🤖 AI-саралау жолы</div>
+   <div class="path">${path.map((p,i)=>`<i class="${p.ok?'':'x'}" style="height:${p.lv*30}px;background:${LV[p.lv].c};animation-delay:${i*.07}s"></i>`).join('')}</div>
+   <div class="legend">Баған биіктігі — деңгей (A, B, C) · ✗ — қате немесе көмекпен</div>
+   <p style="font-weight:700;margin:10px 0 0">${cm}</p></div>
+  <div class="btns"><button class="bigb" id="again">Қайта ойнау</button><button class="bigb alt" id="home2">Басқа ойын</button></div>`;
+ show('end');sfx('up');$('#again').onclick=()=>startGame(g.id);$('#home2').onclick=goHome}
+function goHome(){cur=null;try{speechSynthesis.cancel()}catch(e){}renderHome();show('home')}
+
+/* ---------- басты бет ---------- */
+function renderHome(){
+ $('#nm').value=S.name;
+ document.querySelectorAll('#seg button').forEach(b=>b.classList.toggle('on',b.dataset.m===String(S.mode)));
+ $('#mhint').textContent=MHINT[S.mode];
+ const gr=$('#grid');gr.innerHTML='';
+ GAMES.forEach(g=>{const r=S.res[g.id];const c=el('button','card',`<span class="ic">${ico(g.icon,64)}</span><h3>${g.title}</h3><p>${g.desc}</p><span class="tag">${g.tag}</span>${r?`<span class="done" style="color:${LV[r.lv].c}">${ico('star',14).repeat(r.st)} ${LV[r.lv].k}</span>`:''}`);
+  c.style.setProperty('--c',g.c);c.onclick=()=>{sfx('tap');startGame(g.id)};
+  c.onpointermove=e=>{if(e.pointerType!=='mouse')return;const b=c.getBoundingClientRect(),x=(e.clientX-b.left)/b.width-.5,y=(e.clientY-b.top)/b.height-.5;c.style.transform=`rotateY(${x*14}deg) rotateX(${-y*14}deg) translateZ(10px)`};
+  c.onpointerleave=()=>c.style.transform='';gr.append(c)})}
+$('#seg').onclick=e=>{const b=e.target.closest('button');if(!b)return;S.mode=b.dataset.m==='ai'?'ai':+b.dataset.m;save();renderHome();sfx('tap')};
+$('#nm').oninput=e=>{S.name=e.target.value.trim();save()};
+$('#back').onclick=goHome;
+$('#hintBtn').onclick=hint;
+addEventListener('resize',()=>{if(cur&&cur.g.resize)cur.g.resize(cur.task)});
+
+/* ---------- саралау есебі ---------- */
+$('#toRep').onclick=()=>{
+ const played=GAMES.filter(g=>S.res[g.id]);
+ let html=`<div class="bar"><button class="back" id="rb">⬅</button><div class="ttl">Саралау есебі${S.name?' · '+S.name:''}</div></div>`;
+ if(!played.length)html+=`<div class="panel" style="text-align:center">Әлі ойын ойналған жоқ. Кез келген ойынды бастаңыз — AI деңгейді өзі анықтайды.</div>`;
+ else{const avg=played.reduce((s,g)=>s+S.res[g.id].lv,0)/played.length,grp=avg<1.67?1:avg<2.34?2:3;
+  html+=`<div class="panel"><table class="rep"><tr><th>Ойын</th><th>Дұрыс</th><th>Деңгей</th><th>Жол</th></tr>${played.map(g=>{const r=S.res[g.id];return`<tr><td>${ico(g.icon,24)} ${g.title}</td><td><b>${r.ok}/${r.tot}</b></td><td><span class="badge" style="background:${LV[r.lv].c}">${LV[r.lv].k}</span></td><td>${r.path.map(p=>`<span style="color:${LV[p.lv].c}">${p.ok?'●':'○'}</span>`).join('')}</td></tr>`}).join('')}</table></div>
+  <div class="grp" style="--c:${LV[grp].c}">🤖 AI қорытындысы: оқушы — <b>${LV[grp].k} тобы (${LV[grp].name})</b>.<br>${{1:'Ұсыныс: заттармен, суретпен жұмыс; 2-ні қайталап қосу → көбейту. Келесі сабақта «Екі-бот» A мен «Тең бөліс» A.',2:'Ұсыныс: кері санау мен мәтіндік есептерді бекіту. Келесі сабақта «Кенгуру» C мен «Ақыл-детектив» B.',3:'Ұсыныс: логикалық, кері, екі қадамды есептер; өзі есеп құрастырсын, әлсіз досына «кеңесші» болсын.'}[grp]}</div>`}
+ html+=`<div class="panel"><div class="lbl">Топтар туралы</div>${[1,2,3].map(l=>`<div class="grp" style="--c:${LV[l].c}"><b>${LV[l].k} · ${LV[l].name}</b> — ${MHINT[l].slice(4)}</div>`).join('')}</div>
+  <div class="btns"><button class="bigb alt" id="clr">Нәтижені тазалау (келесі оқушы)</button></div>`;
+ $('#repc').innerHTML=html;show('report');
+ $('#rb').onclick=goHome;$('#clr').onclick=()=>{S.res={};S.name='';save();goHome()};
+};
+
+/* ---------- мұғалімге ---------- */
+$('#toInfo').onclick=()=>{$('#mbox').innerHTML=`<h2>Ойын арқылы саралау</h2>
+ <h4>Үш деңгей (әр ойында)</h4><ul>
+ <li><b style="color:#4fd1a5">A · базалық</b> — көрнекі: қораптар, нүктелер, табақтар, бір қадам.</li>
+ <li><b style="color:#5ab8ff">B · орта</b> — тек сандармен: 2·n, 3/4/5-тен тура санау, екі қадамды есеп.</li>
+ <li><b style="color:#a98bff">C · жоғары</b> — кері есеп (2·? = 14), кері санау, жұп/тақты есептеп анықтау, логика.</li></ul>
+ <h4>🤖 AI автомат режимі</h4><ul>
+ <li>Әр оқушы A-дан бастайды. Қатарынан 2 рет бірден дұрыс → деңгей көтеріледі.</li>
+ <li>Қатарынан 2 тапсырмада қате → деңгей түседі, AI жеңілірек тапсырма береді.</li>
+ <li>«💡 Көмек» — 3 қадам: не белгілі → не сұралады → схема. Көмекпен табылған жауап «бірден дұрыс» болып саналмайды.</li>
+ <li>Соңында «Саралау есебі» оқушыны A, B, C тобына бөліп, келесі сабаққа ұсыныс береді.</li></ul>
+ <h4>Сабақта қолдану реті</h4><ul>
+ <li>1. Ой қозғау — 🦘 Кенгуру секірісі (3, 4, 5-тен санау).</li>
+ <li>2. Жаңа тақырып — 🤖 Екі-бот зауыты (2-ге көбейту кестесін құру).</li>
+ <li>3. Бекіту — 🎩 Жұп-тақ қақпасы, 🍽️ Тең бөліс.</li>
+ <li>4. Мәтіндік есеп — 🕵️ Ақыл-детектив (топпен шешуге болады).</li>
+ <li>5. Логика + рефлексия — 🧰 Логикалық сандық.</li></ul>
+ <h4>Тақтада</h4><ul><li>Бүкіл сыныппен ойнағанда деңгейді қолмен таңдаңыз (A/B/C). Топтық жұмыста әр топқа өз деңгейі.</li><li>Бір құрылғыда бірнеше оқушы: есеп бетінде «тазалау» басып, келесі оқушының атын жазыңыз.</li></ul>
+ <div class="btns"><button class="bigb" id="mclose">Түсінікті</button></div>`;
+ $('#modal').classList.add('on');$('#mclose').onclick=()=>$('#modal').classList.remove('on')};
+$('#modal').onclick=e=>{if(e.target.id==='modal')$('#modal').classList.remove('on')};
+
+$('#hlogo').innerHTML=ico('flask',84);document.querySelectorAll('.rbi').forEach(e=>e.innerHTML=ico('robot',20));$('#hintBtn').innerHTML=ico('bulb',24)+' Көмек';
+renderHome();
+try{const Q=new URLSearchParams(location.search),th=Q.get('theme');if(th&&/^[a-z]+$/.test(th)){document.body.classList.add('t-'+th);const l=document.createElement('link');l.rel='stylesheet';l.href='themes/'+th+'.css';document.head.append(l)}if(Q.get('demo'))setTimeout(()=>{startGame(Q.get('demo'));cur.lv=+(Q.get('lv')||2);next()},50)}catch(e){}
+</script>
+</body>
+</html>
